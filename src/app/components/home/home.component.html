@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="header">
+    <!--BANNER AREA-->
+    <div class="header__banner"
+         [ngStyle]="{
+      'background-image' : 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('+headerBGUrl+')'
+      }">
+      <h2>{{trending?.results[0].title}}</h2>
+      <div class="header__buttons">
+
+        <button class="play-button">
+          <mat-icon>arrow_right</mat-icon>
+          <span>Play</span>
+        </button>
+
+        <button class="more-button">
+          <mat-icon>info</mat-icon>
+          <span>More Info</span>
+        </button>
+
+      </div>
+
+
+    </div>  <!--BANNER ENDS HERE-->
+
+
+    <!--MAIN AREA-->
+    <div class="header__main" id="stickyHeader" [class.sticky]="sticky" #stickHeader>
+      <div class="header__left">
+        <a routerLink="/">
+          <!--<img src="assets/netflix.svg" alt="logo">-->
+        </a>
+        <ul>
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">TV Shows</a></li>
+          <li><a href="#">Animes</a></li>
+          <li><a href="#">Latest</a></li>
+          <li><a href="#">My List</a></li>
+        </ul>
+      </div>
+
+      <div class="header__right">
+        <ul>
+          <li><a href="#"><mat-icon>search</mat-icon></a></li>
+          <li><a href="#">Children</a></li>
+          <li><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
+          <li><a href="#"><mat-icon>notifications</mat-icon></a></li>
+          <li>
+            <img src="https://occ-0-4345-3647.1.nflxso.net/dnm/api/v6/Z-WHgqd_TeJxSuha8aZ5WpyLcX8/AAAABRGTK96GBeqNw5zzYXnoa8oVjSjhuk7SuseuKTmgEKwpcCB59994UWb6wd7d1WONZOuzJwbLNpzG5Okfo4rSDLg.png?r=ee6"
+                 alt="avatar">
+          </li>
+        </ul>
+      </div>
+    </div>  <!--HEADER MAIN ENDS HERE-->
+
+  </div>
+
+  <div class="body" style="margin-top: 30rem;">
+    <div style="padding-top: 10%"></div>
+    <app-slider title="Popular" [animes]="popular" [sliderConfig]="sliderConfig"></app-slider>
+  </div>
+
+
+
+</div>
