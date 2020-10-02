@@ -6,7 +6,8 @@
     <div class="thumbnails">
       <ngx-slick-carousel [config]="sliderConfig" class="carousel">
         <div class="slick-item" *ngFor="let m of animes.results" ngxSlickItem>
-          <img src="https://image.tmdb.org/t/p/w200{{m?.poster_path}}" alt="{{m.title}}">
+          <h3>{{m.realTitle}}</h3>
+          <img style="max-width: 300px; max-height: 425px" height="425px" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="">
         </div>
       </ngx-slick-carousel>
     </div>

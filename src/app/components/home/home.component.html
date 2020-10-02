@@ -5,7 +5,7 @@
          [ngStyle]="{
       'background-image' : 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('+headerBGUrl+')'
       }">
-      <h2>{{trending?.results[0].title}}</h2>
+      <h2 *ngIf="headerTitle">{{headerTitle}}</h2>
       <div class="header__buttons">
 
         <button class="play-button">
@@ -58,6 +58,7 @@
   <div class="body" style="margin-top: 30rem;">
     <div style="padding-top: 10%"></div>
     <app-slider title="Popular" [animes]="popular" [sliderConfig]="sliderConfig"></app-slider>
+    <app-slider title="Trending" [animes]="trending" [sliderConfig]="sliderConfig"></app-slider>
   </div>
 
 

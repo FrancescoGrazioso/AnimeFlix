@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment, mainURL} from 'src/environments/environment';
+import { mainURL} from 'src/environments/environment';
 import {Observable} from 'rxjs';
-import {Animes} from '../models/animes';
+import {Anime, Animes} from '../models/animes';
 
 const enum endpoint {
   popular = '/movie/popular',
@@ -14,22 +14,13 @@ const enum endpoint {
 })
 export class AnimeService {
   private URL = 'https://api.themoviedb.org/3';
+  private APIURL = 'http://www.omdbapi.com/';
   // tslint:disable-next-line:variable-name
-  private api_key = environment.api;
 
   private mainURLS = mainURL;
-  titleList: string[] = [];
   episodesList: string[] = [];
 
   constructor(private http: HttpClient) {
-  }
-
-  getPopularAnimes(): Observable<Animes> {
-    return this.http.get<Animes>(`${this.URL}${endpoint.popular}`, {
-      params: {
-        api_key: this.api_key
-      }
-    });
   }
 
   populateAnimeEpisodes(title: string) {
@@ -48,30 +39,13 @@ export class AnimeService {
     );
   }
 
-  populateAnimeList() {
+  populateAnimeList(key: string) {
     // tslint:disable-next-line:forin
-    for (const key in this.mainURLS) {
-      this.http.get(this.mainURLS[key] + 'DDL/ANIME/', {responseType: 'text'}).subscribe(
-        t => {
-          let htmlPage = t;
-          htmlPage = htmlPage.slice(htmlPage.indexOf('<li>'), htmlPage.indexOf('</ul>'));
-          const tmpList = htmlPage.split('<li>');
-          tmpList.pop();
-          for (let link of tmpList) {
-            link = link.slice(link.indexOf('\'>') + 2, link.indexOf('</a'));
-            this.titleList.push(link);
-          }
-        }
-      );
-    }
+    return this.http.get(this.mainURLS[key] + 'DDL/ANIME/', {responseType: 'text'});
   }
 
-  getTrending(): Observable<Animes> {
-    return this.http.get<Animes>(`${this.URL}${endpoint.trending}`, {
-      params: {
-        api_key: this.api_key
-      }
-    });
+  getAnimeInfo(title: string) {
+    return this.http.get<Anime>('https://api.jikan.moe/v3/search/anime?q=' + title + '&limit=1');
   }
 
 }

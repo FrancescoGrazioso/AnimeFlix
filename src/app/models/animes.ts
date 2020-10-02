@@ -1,27 +1,59 @@
+export interface Anime {
+  realTitle: string;
+  request_hash: string;
+  request_cached: boolean;
+  request_cache_expiry: number;
+  results: [
+    {
+      mal_id: number;
+      url: string;
+      image_url: string;
+      title: string;
+      airing: boolean;
+      synopsis: string;
+      type: string;
+      episodes: number;
+      score: number;
+      start_date: string;
+      end_date: string;
+      members: number;
+      rated: string
+    }
+  ];
+  last_page: number;
+}
+/*export interface Anime {
+  realTitle: string;
+  Title: string;
+  Year: string;
+  Rated: string;
+  Released: string;
+  Runtime: string;
+  Genre: string;
+  Director: string;
+  Writer: string;
+  Actors: string;
+  Plot: string;
+  Language: string;
+  Country: string;
+  Awards: string;
+  Poster: string;
+  Ratings: [
+    {
+      Source: string;
+      Value: string;
+    }
+  ];
+  Metascore: string;
+  imdbRating: string;
+  imdbVotes: string;
+  imdbID: string;
+  Type: string;
+  totalSeasons: string;
+  Response: string;
+}*/
+
 export interface Animes {
-  results?: (ResultsEntity)[] | null;
-  page: number;
-  total_results: number;
-  dates: Dates;
-  total_pages: number;
-}
-export interface ResultsEntity {
-  popularity: number;
-  vote_count: number;
-  video: boolean;
-  poster_path: string;
-  id: number;
-  adult: boolean;
-  backdrop_path: string;
-  original_language: string;
-  original_title: string;
-  genre_ids?: (number)[] | null;
-  title: string;
-  vote_average: number;
-  overview: string;
-  release_date: string;
-}
-export interface Dates {
-  maximum: string;
-  minimum: string;
+  results: Anime[];
+  lenght?: number;
 }

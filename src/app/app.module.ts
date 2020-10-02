@@ -9,6 +9,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatBadgeModule, MatIconModule} from '@angular/material';
 import {SlickCarouselModule} from 'ngx-slick-carousel';
 import { SliderComponent } from './components/slider/slider.component';
+import {AngularFireModule} from '@angular/fire';
+import {firebaseConfig} from '../environments/environment';
+import { AngularFireDatabaseModule} from '@angular/fire/database';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import { SliderComponent } from './components/slider/slider.component';
     MatIconModule,
     MatBadgeModule,
     SlickCarouselModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]

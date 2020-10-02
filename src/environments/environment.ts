@@ -3,8 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  api: '9357268c262a35e41df4cb3774d28301'
+  production: false
 };
 
 export const mainURL = {
@@ -13,6 +12,10 @@ export const mainURL = {
   goodanimetowatch: 'http://www.goodanimetowatch.eu/',
   brandnewanime: 'http://www.brandnewanime.eu/',
   animeislife: 'http://www.animeislife.info/'
+};
+
+export const firebaseConfig = {
+  
 };
 
 /*
