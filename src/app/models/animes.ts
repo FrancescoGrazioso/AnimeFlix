@@ -1,5 +1,6 @@
 export interface Anime {
   realTitle: string;
+  key: string;
   request_hash: string;
   request_cached: boolean;
   request_cache_expiry: number;

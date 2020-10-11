@@ -5,8 +5,8 @@
   <div class="anime__images">
     <div class="thumbnails">
       <ngx-slick-carousel [config]="sliderConfig" class="carousel">
-        <div class="slick-item" *ngFor="let m of animes.results" ngxSlickItem>
-          <h3>{{m.realTitle}}</h3>
+        <div (click)="emitEventOpenAnime(i)" class="slick-item" *ngFor="let m of animes.results; let i = index" ngxSlickItem>
+          <h3>{{m.realTitle.length > 15 ? m.realTitle.slice(0,14)+ '...' : m.realTitle}}</h3>
           <img style="max-width: 300px; max-height: 425px" height="425px" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="">
         </div>
       </ngx-slick-carousel>

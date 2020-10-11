@@ -18,25 +18,12 @@ export class AnimeService {
   // tslint:disable-next-line:variable-name
 
   private mainURLS = mainURL;
-  episodesList: string[] = [];
 
   constructor(private http: HttpClient) {
   }
 
-  populateAnimeEpisodes(title: string) {
-    this.http.get(this.mainURLS.animeislife + 'DDL/ANIME/' + title + '/', {responseType: 'text'}).subscribe(
-      t => {
-        let htmlPage = t;
-        htmlPage = htmlPage.slice(htmlPage.indexOf('<li>'), htmlPage.indexOf('</ul>'));
-        this.episodesList = htmlPage.split('<li>');
-        this.episodesList.reverse().pop();
-        this.episodesList.reverse();
-        for (let link of this.episodesList) {
-          link = link.slice(link.indexOf('/http') + 1, link.indexOf(' target') - 1);
-          console.log(link);
-        }
-      }
-    );
+  populateAnimeEpisodes(key: string, title: string) {
+    return this.http.get(this.mainURLS[key] + '/DDL/ANIME/' + title + '/', {responseType: 'text'});
   }
 
   populateAnimeList(key: string) {

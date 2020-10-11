@@ -1,5 +1,5 @@
-import {AfterContentInit, Component, Input, OnInit} from '@angular/core';
-import {Animes} from '../../models/animes';
+import {AfterContentInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Anime, Animes} from '../../models/animes';
 
 @Component({
   selector: 'app-slider',
@@ -10,6 +10,7 @@ export class SliderComponent implements OnInit, AfterContentInit {
    @Input() sliderConfig;
    @Input() animes: Animes;
    @Input() title: string;
+   @Output() openAnime = new EventEmitter<Anime>();
 
   constructor() {
   }
@@ -17,10 +18,10 @@ export class SliderComponent implements OnInit, AfterContentInit {
   ngOnInit(): void {
   }
 
-  ngAfterContentInit(): void {
-    for (const anime of this.animes.results) {
-      console.log('done')
-    }
+  ngAfterContentInit(): void {}
+
+  emitEventOpenAnime(index: number) {
+    this.openAnime.emit(this.animes.results[index]);
   }
 
 }

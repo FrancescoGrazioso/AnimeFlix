@@ -1,4 +1,4 @@
-<div class="container">
+<div class="continer">
   <div class="header">
     <!--BANNER AREA-->
     <div class="header__banner"
@@ -8,10 +8,10 @@
       <h2 *ngIf="headerTitle">{{headerTitle}}</h2>
       <div class="header__buttons">
 
-        <button class="play-button">
+       <!-- <button class="play-button">
           <mat-icon>arrow_right</mat-icon>
           <span>Play</span>
-        </button>
+        </button>-->
 
         <button class="more-button">
           <mat-icon>info</mat-icon>
@@ -57,8 +57,8 @@
 
   <div class="body" style="margin-top: 30rem;">
     <div style="padding-top: 10%"></div>
-    <app-slider title="Popular" [animes]="popular" [sliderConfig]="sliderConfig"></app-slider>
-    <app-slider title="Trending" [animes]="trending" [sliderConfig]="sliderConfig"></app-slider>
+    <app-slider title="Popular" (openAnime)="openDialog($event)" [animes]="popular" [sliderConfig]="sliderConfig"></app-slider>
+    <app-slider title="Trending" (openAnime)="openDialog($event)" [animes]="trending" [sliderConfig]="sliderConfig"></app-slider>
   </div>
 
 
