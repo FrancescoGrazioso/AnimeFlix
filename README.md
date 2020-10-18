@@ -8,10 +8,11 @@ The application is open source so you can view the source code and interact with
 
 ## State of development
 - [X] Homepage
+- [X] Search page
 - [ ] Trending anime algorithm
 - [ ] Anime that you could like algorithm
 - [X] Anime detail and episodes list
-- [ ] Video player
+- [X] Video player
 - [ ] Profile management
 - [ ] Tracking seen episodes
 - [ ] User favourist system
