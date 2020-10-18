@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {Anime} from '../../models/animes';
 import {Subscription} from 'rxjs';
 import {AnimeService} from '../../services/anime.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-anime-details-dialog',
@@ -21,7 +22,8 @@ export class AnimeDetailsDialogComponent implements OnInit, OnDestroy {
   constructor(
     private dialogRef: MatDialogRef<AnimeDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private animeService: AnimeService) {
+    private animeService: AnimeService,
+    private router: Router) {
     this.anime = data.animeSelected;
     this.title = data.animeSelected.realTitle.match(/[A-Z][a-z]+|[0-9]+/g).join(' ');
     this.headerImage = data.animeSelected.results[0].image_url;
@@ -53,6 +55,12 @@ export class AnimeDetailsDialogComponent implements OnInit, OnDestroy {
 
   close() {
     this.dialogRef.close();
+  }
+
+  playEpisode(index: number) {
+    const urlToSend = btoa(this.episodesList[index]);
+    this.router.navigate(['player', {videoID: urlToSend}]);
+    this.close();
   }
 
 }

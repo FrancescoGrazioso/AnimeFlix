@@ -1,11 +1,12 @@
-<div class="continer">
+<div *ngIf="!loading" class="continer">
   <div class="header">
     <!--BANNER AREA-->
     <div class="header__banner"
          [ngStyle]="{
-      'background-image' : 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('+headerBGUrl+')'
+      'background-image' : 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('+'assets/images/1915382.jpg'+')'
       }">
-      <h2 *ngIf="headerTitle">{{headerTitle}}</h2>
+      <!--<h2 *ngIf="headerTitle">{{headerTitle}}</h2>-->
+      <h2>AnimeFlix</h2>
       <div class="header__buttons">
 
        <!-- <button class="play-button">
@@ -14,8 +15,8 @@
         </button>-->
 
         <button class="more-button">
-          <mat-icon>info</mat-icon>
-          <span>More Info</span>
+          <mat-icon>account_circle</mat-icon>
+          <span>Registrati/Accedi</span>
         </button>
 
       </div>
@@ -41,7 +42,7 @@
 
       <div class="header__right">
         <ul>
-          <li><a href="#"><mat-icon>search</mat-icon></a></li>
+          <li><a routerLink="search"><mat-icon>search</mat-icon></a></li>
           <li><a href="#">Children</a></li>
           <li><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
           <li><a href="#"><mat-icon>notifications</mat-icon></a></li>
@@ -57,10 +58,15 @@
 
   <div class="body" style="margin-top: 30rem;">
     <div style="padding-top: 10%"></div>
-    <app-slider title="Popular" (openAnime)="openDialog($event)" [animes]="popular" [sliderConfig]="sliderConfig"></app-slider>
-    <app-slider title="Trending" (openAnime)="openDialog($event)" [animes]="trending" [sliderConfig]="sliderConfig"></app-slider>
+    <!--<app-slider title="Popular" (openAnime)="openDialog($event)" [animes]="popular" [sliderConfig]="sliderConfig"></app-slider>
+    <app-slider title="Trending" (openAnime)="openDialog($event)" [animes]="trending" [sliderConfig]="sliderConfig"></app-slider>-->
+    <div *ngFor="let lista of homeScreenMatrix">
+      <app-slider title="" (openAnime)="openDialog($event)" [animes]="lista" [sliderConfig]="sliderConfig"></app-slider>
+    </div>
   </div>
 
 
 
 </div>
+
+<app-loader *ngIf="loading"></app-loader>

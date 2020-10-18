@@ -17,21 +17,17 @@ import {AnimeDetailsDialogComponent} from '../anime-details-dialog/anime-details
 export class HomeComponent implements OnInit, OnDestroy {
   sticky = false;
   subs: Subscription[] = [];
-  trending: Animes = {
-    results: []
-  };
-  popular: Animes = {
-    results: []
-  };
+  loading = false;
+
+  homeScreenMatrix: Animes[] = [];
 
   sliderConfig = {
     slidesToShow: 5,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
     arrows: true,
     autoplay: false
   };
 
-  @ViewChild('stickHeader', {static: true}) header: ElementRef;
   headerBGUrl: string;
   headerTitle: string;
   titleList: string[] = [];
@@ -70,58 +66,85 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loading = true;
+    const jsonAnimeList = localStorage.getItem('animeList');
+    if (jsonAnimeList) {
+      const tmpAnimeList: Animes = JSON.parse(jsonAnimeList);
+      let tmpAnimes: Animes = { results: [] };
+      for (const currentAnime of tmpAnimeList.results) {
+        if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.results[0].image_url; }
+        if (!this.headerTitle) { this.headerTitle = currentAnime.realTitle; }
+
+        if (tmpAnimes.results.length < 20 ) {
+          tmpAnimes.results.push(currentAnime);
+        } else {
+          this.homeScreenMatrix.push(tmpAnimes);
+          tmpAnimes = { results: [] };
+        }
+      }
+      this.loading = false;
+      this.loading = false;
+    } else {
     // tslint:disable-next-line:forin
-    for (const key in mainURL) {
-      this.subs.push(this.anime.populateAnimeList(key).subscribe(
-        t => {
-          let htmlPage = t;
-          htmlPage = htmlPage.slice(htmlPage.indexOf('<li>'), htmlPage.indexOf('</ul>'));
-          const tmpList = htmlPage.split('<li>');
-          tmpList.pop();
-          for (let link of tmpList) {
-            link = link.slice(link.indexOf('\'>') + 2, link.indexOf('</a'));
-            this.titleList.push(link);
-          }
-          for (const link of this.titleList) {
-            if (link) {
-              this.af.database.ref('/anime').child(link).once('value', snap => {
-                if (!snap.exists()) {
-                  let tmpLink = link;
-                  if (this.isCharDigit(link.charAt(link.length - 1))) {
-                    tmpLink = tmpLink.slice(0, -1);
+      for (const key in mainURL) {
+        this.subs.push(this.anime.populateAnimeList(key).subscribe(
+          t => {
+            let htmlPage = t;
+            htmlPage = htmlPage.slice(htmlPage.indexOf('<li>'), htmlPage.indexOf('</ul>'));
+            const tmpList = htmlPage.split('<li>');
+            tmpList.pop();
+            for (let link of tmpList) {
+              link = link.slice(link.indexOf('\'>') + 2, link.indexOf('</a'));
+              this.titleList.push(link);
+            }
+            for (const link of this.titleList) {
+              if (link) {
+                this.af.database.ref('/anime').child(link).once('value', snap => {
+                  if (!snap.exists()) {
+                    let tmpLink = link;
+                    if (this.isCharDigit(link.charAt(link.length - 1))) {
+                      tmpLink = tmpLink.slice(0, -1);
+                    }
+                    const titolo = tmpLink.match(/[A-Z][a-z]+|[0-9]+/g);
+                    if (titolo) {
+                      this.subs.push(this.anime.getAnimeInfo(titolo.join('+')).subscribe(
+                        data => {
+                          data.key = key;
+                          data.realTitle = link;
+                          this.af.database.ref('/anime').child(link).set(data);
+                          console.log('added ' + link);
+                        }
+                      ));
+                    }
                   }
-                  const titolo = tmpLink.match(/[A-Z][a-z]+|[0-9]+/g);
-                  if (titolo) {
-                    this.subs.push(this.anime.getAnimeInfo(titolo.join('+')).subscribe(
-                      data => {
-                        data.key = key;
-                        data.realTitle = link;
-                        this.af.database.ref('/anime').child(link).set(data);
-                        console.log('added ' + link);
-                      }
-                    ));
-                  }
-                }
-              });
+                });
+              }
             }
           }
+        ));
+      }
+      const an = this.af.list<Anime>('/anime');
+      this.subs.push(an.snapshotChanges().subscribe(
+        datas => {
+          let tmpAnimes: Animes = { results: [] };
+          const  allAnimes: Animes = { results: []};
+          for (const currentAnime of datas) {
+            if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.payload.val().results[0].image_url; }
+            if (!this.headerTitle) { this.headerTitle = currentAnime.payload.val().realTitle; }
+
+            if (tmpAnimes.results.length < 20 ) {
+              tmpAnimes.results.push(currentAnime.payload.val());
+            } else {
+              this.homeScreenMatrix.push(tmpAnimes);
+              tmpAnimes = { results: [] };
+            }
+            allAnimes.results.push(currentAnime.payload.val());
+          }
+          this.loading = false;
+          localStorage.setItem('animeList', JSON.stringify(allAnimes));
         }
       ));
     }
-    const an = this.af.list<Anime>('/anime');
-    this.subs.push(an.snapshotChanges().subscribe(
-      datas => {
-        for (const currentAnime of datas) {
-          if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.payload.val().results[0].image_url; }
-          if (!this.headerTitle) { this.headerTitle = currentAnime.payload.val().realTitle; }
-          if (this.popular.results.length < 20) {
-            this.popular.results.push(currentAnime.payload.val());
-          } else if ( this.trending.results.length < 20) {
-            this.trending.results.push(currentAnime.payload.val());
-          }
-        }
-      }
-    ));
   }
 
   openDialog(anime: Anime) {
@@ -150,7 +173,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   handleScroll() {
     const windowScroll = window.pageYOffset;
 
-    if (windowScroll >= this.header.nativeElement.offsetHeight) {
+    if (windowScroll >= document.getElementById('stickyHeader').offsetHeight) {
       this.sticky = true;
     } else {
       this.sticky = false;

@@ -1,14 +1,20 @@
 <mat-dialog-content>
-  <div class="hero-image" [ngStyle]="{'background-image' : 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('+headerImage+')'}">
-    <h1>{{title}}</h1>
-    <br>
-    <br>
-    <br>
-    <p>{{anime.results[0].synopsis}}</p>
-    <div *ngIf="populated">
-      <div style="padding-left: 20px" class="row" *ngFor="let e of episodesList; let i = index">
-        <p>Episode {{i}}</p>
+  <div class="container">
+    <div class="row">
+      <img src="{{anime.results[0].image_url}}">
+      <div class="col">
+        <h1>{{title}}</h1>
+        <br>
+        <p>{{anime.results[0].synopsis}}</p>
       </div>
     </div>
+    <hr style="color: white">
+    <div class="container" *ngIf="populated">
+      <h2>Lista episodi</h2>
+      <div style="padding-left: 20px" class="row" *ngFor="let e of episodesList; let i = index">
+        <p (click)="playEpisode(i)" style="cursor: pointer">Episodio {{i+1}}</p>
+      </div>
+    </div>
+    <app-loader *ngIf="!populated"></app-loader>
   </div>
 </mat-dialog-content>

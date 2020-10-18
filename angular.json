@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/videogular2/fonts/videogular.css",
               "src/custom-theme.scss",
               "src/styles.css",
               "src/assets/css/normalize.css",
@@ -96,6 +97,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/videogular2/fonts/videogular.css",
               "src/styles.css",
               "src/assets/css/normalize.css",
               "node_modules/slick-carousel/slick/slick.scss",

@@ -13,7 +13,14 @@ import {AngularFireModule} from '@angular/fire';
 import {firebaseConfig} from '../environments/environment';
 import { AngularFireDatabaseModule} from '@angular/fire/database';
 import { AnimeDetailsDialogComponent } from './components/anime-details-dialog/anime-details-dialog.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {VgCoreModule} from 'videogular2/compiled/src/core/core';
+import {VgControlsModule} from 'videogular2/compiled/src/controls/controls';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import {VgOverlayPlayModule} from 'videogular2/compiled/src/overlay-play/overlay-play';
+import { LoaderComponent } from './components/loader/loader.component';
+import { SearchComponent } from './components/search/search.component';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
 
 
 @NgModule({
@@ -21,7 +28,10 @@ import {ReactiveFormsModule} from '@angular/forms';
     AppComponent,
     HomeComponent,
     SliderComponent,
-    AnimeDetailsDialogComponent
+    AnimeDetailsDialogComponent,
+    VideoPlayerComponent,
+    LoaderComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +46,12 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatDialogModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    Ng2SearchPipeModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

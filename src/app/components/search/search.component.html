@@ -1,0 +1,21 @@
+<div class="form-group">
+  <input type="text" class="form-control" placeholder="Inserisci il titolo" [(ngModel)]="term">
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th style="color: white" scope="col">Titolo</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr (click)="openDialog(item)" *ngFor="let item of filterData | filter:term">
+    <td style="color: white">
+      <div class="row">
+        <img height="50px" src="{{item.results ? item.results[0].image_url : ''}}">
+        <p style="padding-left: 10px">{{item.realTitle}}</p>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
