@@ -11,6 +11,15 @@ export const mainURL = {
   fairytailitalia: 'http://www.fairytailitalia.eu/',
   goodanimetowatch: 'http://www.goodanimetowatch.eu/',
   brandnewanime: 'http://www.brandnewanime.eu/',
+  animemadness: 'http://www.animemadness.cloud/',
+  theplaykuroko: 'http://www.theplaykuroko.org/',
+  onepiece4ever: 'http://www.onepiece4ever.eu/',
+  easydeath: 'http://www.easydeath.net/',
+  littlebigproject: 'http://www.littlebigproject.org/',
+  noughties: 'http://www.noughties.net/',
+  silverbullet: 'http://www.silverbullet.cloud/',
+  wagnaria: 'http://www.wagnaria.org/',
+  animeofthedecade: 'http://www.animeofthedecade.eu/',
   animeislife: 'http://www.animeislife.info/'
 };
 
