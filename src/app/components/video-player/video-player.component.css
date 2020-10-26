@@ -1,0 +1,79 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.videogular-container {
+  width: 100%;
+  height: 320px;
+  margin: auto;
+  overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+  .videogular-container {
+    width: 1170px;
+    height: 658.125px;
+  }
+
+  .videogular-container.audio {
+    width: 1170px;
+    height: 50px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .videogular-container {
+    width: 940px;
+    height: 528.75px;
+  }
+
+  .videogular-container.audio {
+    width: 940px;
+    height: 50px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .videogular-container {
+    width: 728px;
+    height: 409.5px;
+  }
+
+  .videogular-container.audio {
+    width: 728px;
+    height: 50px;
+  }
+}
+
+/* Custom button */
+videogular my-stop-button {
+  display: table-cell;
+  width: 50px;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+}
+
+videogular my-stop-button a,
+videogular my-stop-button a:hover,
+videogular my-stop-button a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+videogular div.my-button {
+  display: table-cell;
+  width: 50px;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+}
+
+videogular div.my-button a,
+videogular div.my-button a:hover,
+videogular div.my-button a:visited {
+  color: white;
+  text-decoration: none;
+}

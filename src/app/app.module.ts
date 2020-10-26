@@ -21,6 +21,7 @@ import {VgOverlayPlayModule} from 'videogular2/compiled/src/overlay-play/overlay
 import { LoaderComponent } from './components/loader/loader.component';
 import { SearchComponent } from './components/search/search.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import { LoadPlayerComponent } from './components/load-player/load-player.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
     AnimeDetailsDialogComponent,
     VideoPlayerComponent,
     LoaderComponent,
-    SearchComponent
+    SearchComponent,
+    LoadPlayerComponent
   ],
   imports: [
     BrowserModule,

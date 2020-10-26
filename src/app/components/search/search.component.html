@@ -13,7 +13,7 @@
     <td style="color: white">
       <div class="row">
         <img height="50px" src="{{item.results ? item.results[0].image_url : ''}}">
-        <p style="padding-left: 10px">{{item.realTitle}}</p>
+        <p style="padding-left: 10px">{{cleanTitle(item.realTitle)}}</p>
       </div>
     </td>
   </tr>

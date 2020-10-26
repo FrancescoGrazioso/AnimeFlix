@@ -44,4 +44,8 @@ export class SearchComponent implements OnInit {
     this.dialog.open(AnimeDetailsDialogComponent, dialogConfig);
   }
 
+  cleanTitle(realTitle: string) {
+    return realTitle.match(/[A-Z][a-z]+|[0-9]+/g).join(' ');
+  }
+
 }

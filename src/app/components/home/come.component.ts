@@ -83,7 +83,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       }
       this.loading = false;
-      this.loading = false;
     } else {
     // tslint:disable-next-line:forin
       for (const key in mainURL) {
@@ -98,7 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.titleList.push(link);
             }
             for (const link of this.titleList) {
-              if (link) {
+              if (link && (link.indexOf('.') === -1)) {
                 this.af.database.ref('/anime').child(link).once('value', snap => {
                   if (!snap.exists()) {
                     let tmpLink = link;

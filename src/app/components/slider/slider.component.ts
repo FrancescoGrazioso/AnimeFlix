@@ -24,4 +24,8 @@ export class SliderComponent implements OnInit, AfterContentInit {
     this.openAnime.emit(this.animes.results[index]);
   }
 
+  cleanTitle(realTitle: string) {
+    return realTitle.match(/[A-Z][a-z]+|[0-9]+/g).join(' ');
+  }
+
 }

@@ -3,7 +3,6 @@
   <vg-controls [vgAutohide]="true">
     <vg-play-pause></vg-play-pause>
     <vg-playback-button></vg-playback-button>
-    <vg-quality-selector></vg-quality-selector>
 
     <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
@@ -17,10 +16,12 @@
     <vg-mute></vg-mute>
     <vg-volume></vg-volume>
 
+    <div (click)="goToNextEpisode()" *ngIf="nextEpisode && nextEpisode !== ''" class='my-button iconButton' style="color: white; padding-left: 10px">Prossimo epsodio</div>
+
     <vg-fullscreen></vg-fullscreen>
   </vg-controls>
 
   <video autoplay #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
-    <source src="{{videoUrl}}" type="video/mp4">
+    <source src="{{currentEpisode}}" type="video/mp4">
   </video>
 </vg-player>

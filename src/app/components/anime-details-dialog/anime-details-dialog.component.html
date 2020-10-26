@@ -11,8 +11,10 @@
     <hr style="color: white">
     <div class="container" *ngIf="populated">
       <h2>Lista episodi</h2>
-      <div style="padding-left: 20px" class="row" *ngFor="let e of episodesList; let i = index">
-        <p (click)="playEpisode(i)" style="cursor: pointer">Episodio {{i+1}}</p>
+      <div style="padding-left: 20px" class="row" >
+          <div class="col-3" *ngFor="let e of episodesList; let i = index">
+            <p (click)="playEpisode(i)" style="cursor: pointer">Episodio {{i+1}}</p>
+          </div>
       </div>
     </div>
     <app-loader *ngIf="!populated"></app-loader>

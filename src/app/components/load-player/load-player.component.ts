@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Route, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'app-video-player',
-  templateUrl: './video-player.component.html',
-  styleUrls: ['./video-player.component.css']
+  selector: 'app-load-player',
+  templateUrl: './load-player.component.html',
+  styleUrls: ['./load-player.component.css']
 })
-export class VideoPlayerComponent implements OnInit {
+export class LoadPlayerComponent implements OnInit {
   videoUrl: string[];
   currentEpisode: string;
   index: number;
@@ -24,16 +24,14 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  goToNextEpisode() {
-    const urlToSend = btoa(JSON.stringify(this.videoUrl));
-    localStorage.setItem('goHome', 'False');
-    this.router.navigate(['loadPlayer', {videoID: urlToSend, numberEpisode: this.index + 1}]);
-  }
-
-  encode(stringa: string[]) {
-    return btoa(JSON.stringify(stringa));
+    const goHome = localStorage.getItem('goHome');
+    if (goHome === 'False') {
+      const urlToSend = btoa(JSON.stringify(this.videoUrl));
+      this.router.navigate(['player', {videoID: urlToSend, numberEpisode: this.index}]);
+      localStorage.setItem('goHome', 'True');
+    } else {
+      this.router.navigate(['']);
+    }
   }
 
 }
