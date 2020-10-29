@@ -1,8 +1,10 @@
-<vg-player>
+<vg-player (onPlayerReady)="onPlayerReady($event)">
   <vg-overlay-play></vg-overlay-play>
   <vg-controls [vgAutohide]="true">
     <vg-play-pause></vg-play-pause>
     <vg-playback-button></vg-playback-button>
+
+    <div style="color: white; padding-left: 10px; padding-top: 10px; cursor: pointer; font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;"> Episodio {{index + 1}} </div>
 
     <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
@@ -16,7 +18,7 @@
     <vg-mute></vg-mute>
     <vg-volume></vg-volume>
 
-    <div (click)="goToNextEpisode()" *ngIf="nextEpisode && nextEpisode !== ''" class='my-button iconButton' style="color: white; padding-left: 10px">Prossimo epsodio</div>
+    <div (click)="goToNextEpisode()" *ngIf="nextEpisode && nextEpisode !== ''" class='my-button iconButton' style="color: white; padding-left: 10px; padding-top: 10px; cursor: pointer; font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;">Prossimo epsodio</div>
 
     <vg-fullscreen></vg-fullscreen>
   </vg-controls>

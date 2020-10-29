@@ -22,6 +22,12 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { SearchComponent } from './components/search/search.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import { LoadPlayerComponent } from './components/load-player/load-player.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { UserComponent } from './components/user/user.component';
+import {AuthService} from './services/auth.service';
+import {AnimeService} from './services/anime.service';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 
 
 @NgModule({
@@ -33,7 +39,10 @@ import { LoadPlayerComponent } from './components/load-player/load-player.compon
     VideoPlayerComponent,
     LoaderComponent,
     SearchComponent,
-    LoadPlayerComponent
+    LoadPlayerComponent,
+    LoginComponent,
+    RegisterComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +54,7 @@ import { LoadPlayerComponent } from './components/load-player/load-player.compon
     HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     MatDialogModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -55,7 +65,7 @@ import { LoadPlayerComponent } from './components/load-player/load-player.compon
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthService, AnimeService],
   bootstrap: [AppComponent],
   entryComponents: [AnimeDetailsDialogComponent]
 })

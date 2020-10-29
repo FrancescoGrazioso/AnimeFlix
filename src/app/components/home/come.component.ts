@@ -8,6 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import {delay} from 'rxjs/operators';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AnimeDetailsDialogComponent} from '../anime-details-dialog/anime-details-dialog.component';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -84,66 +85,74 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       this.loading = false;
     } else {
-    // tslint:disable-next-line:forin
-      for (const key in mainURL) {
-        this.subs.push(this.anime.populateAnimeList(key).subscribe(
-          t => {
-            let htmlPage = t;
-            htmlPage = htmlPage.slice(htmlPage.indexOf('<li>'), htmlPage.indexOf('</ul>'));
-            const tmpList = htmlPage.split('<li>');
-            tmpList.pop();
-            for (let link of tmpList) {
-              link = link.slice(link.indexOf('\'>') + 2, link.indexOf('</a'));
-              this.titleList.push(link);
-            }
-            for (const link of this.titleList) {
-              if (link && (link.indexOf('.') === -1)) {
-                this.af.database.ref('/anime').child(link).once('value', snap => {
-                  if (!snap.exists()) {
-                    let tmpLink = link;
-                    if (this.isCharDigit(link.charAt(link.length - 1))) {
-                      tmpLink = tmpLink.slice(0, -1);
-                    }
-                    const titolo = tmpLink.match(/[A-Z][a-z]+|[0-9]+/g);
-                    if (titolo) {
-                      this.subs.push(this.anime.getAnimeInfo(titolo.join('+')).subscribe(
-                        data => {
-                          data.key = key;
-                          data.realTitle = link;
-                          this.af.database.ref('/anime').child(link).set(data);
-                          console.log('added ' + link);
-                        }
-                      ));
-                    }
-                  }
-                });
-              }
-            }
-          }
-        ));
-      }
-      const an = this.af.list<Anime>('/anime');
-      this.subs.push(an.snapshotChanges().subscribe(
-        datas => {
-          let tmpAnimes: Animes = { results: [] };
-          const  allAnimes: Animes = { results: []};
-          for (const currentAnime of datas) {
-            if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.payload.val().results[0].image_url; }
-            if (!this.headerTitle) { this.headerTitle = currentAnime.payload.val().realTitle; }
+      this.readFromNewSource();
+      this.uploadNewAnime();
+    }
+  }
 
-            if (tmpAnimes.results.length < 20 ) {
-              tmpAnimes.results.push(currentAnime.payload.val());
-            } else {
-              this.homeScreenMatrix.push(tmpAnimes);
-              tmpAnimes = { results: [] };
-            }
-            allAnimes.results.push(currentAnime.payload.val());
+  readFromNewSource() {
+    // tslint:disable-next-line:forin
+    for (const key in mainURL) {
+      this.subs.push(this.anime.populateAnimeList(key).subscribe(
+        t => {
+          let htmlPage = t;
+          htmlPage = htmlPage.slice(htmlPage.indexOf('<li>'), htmlPage.indexOf('</ul>'));
+          const tmpList = htmlPage.split('<li>');
+          tmpList.pop();
+          for (let link of tmpList) {
+            link = link.slice(link.indexOf('\'>') + 2, link.indexOf('</a'));
+            this.titleList.push(link);
           }
-          this.loading = false;
-          localStorage.setItem('animeList', JSON.stringify(allAnimes));
+          for (const link of this.titleList) {
+            if (link && (link.indexOf('.') === -1)) {
+              this.af.database.ref('/anime').child(link).once('value', snap => {
+                if (!snap.exists()) {
+                  let tmpLink = link;
+                  if (this.isCharDigit(link.charAt(link.length - 1))) {
+                    tmpLink = tmpLink.slice(0, -1);
+                  }
+                  const titolo = tmpLink.match(/[A-Z][a-z]+|[0-9]+/g);
+                  if (titolo) {
+                    this.subs.push(this.anime.getAnimeInfo(titolo.join('+')).subscribe(
+                      data => {
+                        data.key = key;
+                        data.realTitle = link;
+                        this.af.database.ref('/anime').child(link).set(data);
+                        console.log('added ' + link);
+                      }
+                    ));
+                  }
+                }
+              });
+            }
+          }
         }
       ));
     }
+  }
+
+  uploadNewAnime() {
+    const an = this.af.list<Anime>('/anime');
+    this.subs.push(an.snapshotChanges().subscribe(
+      datas => {
+        let tmpAnimes: Animes = { results: [] };
+        const  allAnimes: Animes = { results: []};
+        for (const currentAnime of datas) {
+          if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.payload.val().results[0].image_url; }
+          if (!this.headerTitle) { this.headerTitle = currentAnime.payload.val().realTitle; }
+
+          if (tmpAnimes.results.length < 20 ) {
+            tmpAnimes.results.push(currentAnime.payload.val());
+          } else {
+            this.homeScreenMatrix.push(tmpAnimes);
+            tmpAnimes = { results: [] };
+          }
+          allAnimes.results.push(currentAnime.payload.val());
+        }
+        this.loading = false;
+        localStorage.setItem('animeList', JSON.stringify(allAnimes));
+      }
+    ));
   }
 
   openDialog(anime: Anime) {
