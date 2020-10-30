@@ -98,7 +98,6 @@ export class AuthService {
           this.router.navigate(['']);
         });
         this.SetUserData(result.user);
-        console.log(result);
       }).catch((error) => {
         window.alert(error);
       });
@@ -109,7 +108,6 @@ export class AuthService {
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   SetUserData(user: firebase.User) {
     const userRef = this.af.database.ref('/user');
-    console.log(user);
     const userData: User = {
       uid: user.uid,
       email: user.email,
@@ -127,5 +125,9 @@ export class AuthService {
       localStorage.removeItem('user');
       this.router.navigate(['']);
     });
+  }
+
+  getFirebaseUser() {
+    return this.afAuth.user;
   }
 }

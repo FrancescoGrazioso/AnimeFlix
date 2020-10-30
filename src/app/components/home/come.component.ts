@@ -9,6 +9,7 @@ import {delay} from 'rxjs/operators';
 import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AnimeDetailsDialogComponent} from '../anime-details-dialog/anime-details-dialog.component';
 import {AuthService} from '../../services/auth.service';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   sticky = false;
   subs: Subscription[] = [];
   loading = false;
+  user: User;
 
   homeScreenMatrix: Animes[] = [];
 
@@ -36,34 +38,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private anime: AnimeService,
               private  af: AngularFireDatabase,
               private http: HttpClient,
+              private auth: AuthService,
               private dialog: MatDialog) {
-    const windowsWidth = window.innerWidth;
-    let slidesToShow = 0;
-    if (windowsWidth < 400) {
-      slidesToShow = 1;
-    } else if (windowsWidth < 800) {
-      slidesToShow = 2;
-    } else if (windowsWidth < 1100) {
-      slidesToShow = 3;
-    } else if (windowsWidth < 1400) {
-      slidesToShow = 4;
-    } else if (windowsWidth < 1700) {
-      slidesToShow = 5;
-    } else if (windowsWidth < 2000) {
-      slidesToShow = 6;
-    } else if (windowsWidth < 2400) {
-      slidesToShow = 7;
-    }  else if (windowsWidth < 3000) {
-      slidesToShow = 8;
-    }  else if (windowsWidth < 3500) {
-      slidesToShow = 9;
-    }  else if (windowsWidth < 4000) {
-      slidesToShow = 10;
-    } else {
-      slidesToShow = 11;
-    }
-
-    this.sliderConfig.slidesToShow = slidesToShow;
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.setSliderWidth();
   }
 
   ngOnInit(): void {
@@ -172,8 +150,46 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dialog.open(AnimeDetailsDialogComponent, dialogConfig);
   }
 
+  setSliderWidth() {
+    const windowsWidth = window.innerWidth;
+    let slidesToShow = 0;
+    if (windowsWidth < 400) {
+      slidesToShow = 1;
+    } else if (windowsWidth < 800) {
+      slidesToShow = 2;
+    } else if (windowsWidth < 1100) {
+      slidesToShow = 3;
+    } else if (windowsWidth < 1400) {
+      slidesToShow = 4;
+    } else if (windowsWidth < 1700) {
+      slidesToShow = 5;
+    } else if (windowsWidth < 2000) {
+      slidesToShow = 6;
+    } else if (windowsWidth < 2400) {
+      slidesToShow = 7;
+    }  else if (windowsWidth < 3000) {
+      slidesToShow = 8;
+    }  else if (windowsWidth < 3500) {
+      slidesToShow = 9;
+    }  else if (windowsWidth < 4000) {
+      slidesToShow = 10;
+    } else {
+      slidesToShow = 11;
+    }
+
+    this.sliderConfig.slidesToShow = slidesToShow;
+  }
+
   ngOnDestroy(): void {
     this.subs.map(s => s.unsubscribe());
+  }
+
+  logout() {
+    this.auth.SignOut();
+  }
+
+  login() {
+    this.auth.GoogleAuth();
   }
 
   @HostListener('window:scroll', ['$event'])

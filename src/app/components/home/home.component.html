@@ -42,12 +42,12 @@
 
       <div class="header__right">
         <ul>
-          <li><a routerLink="search"><mat-icon>search</mat-icon></a></li>
+          <li routerLink="/search"><a><mat-icon>search</mat-icon></a></li>
           <li><a href="#">Children</a></li>
-          <li><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
-          <li><a href="#"><mat-icon>notifications</mat-icon></a></li>
-          <li  style="cursor: pointer" (click)="login()">
-            <img src="https://occ-0-4345-3647.1.nflxso.net/dnm/api/v6/Z-WHgqd_TeJxSuha8aZ5WpyLcX8/AAAABRGTK96GBeqNw5zzYXnoa8oVjSjhuk7SuseuKTmgEKwpcCB59994UWb6wd7d1WONZOuzJwbLNpzG5Okfo4rSDLg.png?r=ee6"
+          <li (click)="login()"><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
+          <li (click)="logout()"><a href="#"><mat-icon>notifications</mat-icon></a></li>
+          <li  style="cursor: pointer">
+            <img routerLink="/user" height="30px" width="30px" style="border-radius: 50%" src="{{user && user.photoURL ? user.photoURL : 'assets/images/poster_placeholder.jpg'}}"
                  alt="avatar">
           </li>
         </ul>

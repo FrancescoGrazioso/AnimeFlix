@@ -3,6 +3,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { mainURL} from 'src/environments/environment';
 import {Observable} from 'rxjs';
 import {Anime, Animes} from '../models/animes';
+import {User} from '../models/user';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {WatchingResume} from '../models/watchingResume';
 
 const enum endpoint {
   popular = '/movie/popular',
@@ -19,7 +22,8 @@ export class AnimeService {
 
   private mainURLS = mainURL;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private  af: AngularFireDatabase ) {
   }
 
   populateAnimeEpisodes(key: string, title: string) {
@@ -33,6 +37,27 @@ export class AnimeService {
 
   getAnimeInfo(title: string) {
     return this.http.get<Anime>('https://api.jikan.moe/v3/search/anime?q=' + title + '&limit=1');
+  }
+
+  uploadEpisodeStatus(user: User, animeTitle: string, videoUrl: string, index: number, currentTime: number) {
+    const data: WatchingResume = {
+      uid: user.uid,
+      animeTitle,
+      videoUrl,
+      index,
+      currentTime
+    };
+    this.af.database.ref('/watchingResume').child(user.uid).child(animeTitle).set(data);
+  }
+
+  readWatchingResme(user: User) {
+    const an = this.af.list<WatchingResume>('/watchingResume/' + user.uid);
+    return an.snapshotChanges();
+  }
+
+  getAnimeDetails(realTitle: string) {
+    const an = this.af.object<Anime>('/anime/' + realTitle);
+    return an.snapshotChanges();
   }
 
 }

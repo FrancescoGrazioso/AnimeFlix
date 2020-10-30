@@ -11,6 +11,7 @@ export class LoadPlayerComponent implements OnInit {
   currentEpisode: string;
   index: number;
   nextEpisode: string;
+  title: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,6 +20,7 @@ export class LoadPlayerComponent implements OnInit {
     const jsonURL = atob(this.route.snapshot.paramMap.get('videoID'));
     this.videoUrl = JSON.parse(jsonURL);
     this.index = +this.route.snapshot.paramMap.get('numberEpisode');
+    this.title = route.snapshot.paramMap.get('title');
     this.currentEpisode = this.videoUrl[this.index];
     this.nextEpisode = this.videoUrl.length > this.index + 1 ? this.videoUrl[this.index + 1] : '';
   }
@@ -27,7 +29,7 @@ export class LoadPlayerComponent implements OnInit {
     const goHome = localStorage.getItem('goHome');
     if (goHome === 'False') {
       const urlToSend = btoa(JSON.stringify(this.videoUrl));
-      this.router.navigate(['player', {videoID: urlToSend, numberEpisode: this.index}]);
+      this.router.navigate(['player', {videoID: urlToSend, numberEpisode: this.index, title: this.title}]);
       localStorage.setItem('goHome', 'True');
     } else {
       this.router.navigate(['']);

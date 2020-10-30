@@ -59,7 +59,8 @@ export class AnimeDetailsDialogComponent implements OnInit, OnDestroy {
 
   playEpisode(index: number) {
     const urlToSend = btoa(JSON.stringify(this.episodesList));
-    this.router.navigate(['player', {videoID: urlToSend, numberEpisode: index}]);
+    const animeTitle = btoa(this.anime.realTitle);
+    this.router.navigate(['player', {videoID: urlToSend, numberEpisode: index, title: animeTitle}]);
     this.close();
   }
 

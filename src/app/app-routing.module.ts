@@ -4,6 +4,10 @@ import {VideoPlayerComponent} from './components/video-player/video-player.compo
 import {HomeComponent} from './components/home/come.component';
 import {SearchComponent} from './components/search/search.component';
 import {LoadPlayerComponent} from './components/load-player/load-player.component';
+import {UserComponent} from './components/user/user.component';
+import {LoginComponent} from './components/login/login.component';
+import {RegisterComponent} from './components/register/register.component';
+import {UserGuard} from './guards/user.guard';
 
 
 const routes: Routes = [
@@ -11,6 +15,9 @@ const routes: Routes = [
   {path: 'player', component: VideoPlayerComponent},
   {path: 'search', component: SearchComponent},
   {path: 'loadPlayer', component: LoadPlayerComponent},
+  {path: 'user', component: UserComponent, canActivate: [UserGuard]},
+  {path: 'signIn', component: LoginComponent},
+  {path: 'signUp', component: RegisterComponent},
 ];
 
 @NgModule({

@@ -1,1 +1,64 @@
-<p>user works!</p>
+<div class="continer">
+  <div class="header">
+    <!--BANNER AREA-->
+    <div class="header__banner"
+         [ngStyle]="{
+
+      'background-image' : 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('+ getUserPic() +')'
+      }">
+      <!--<h2 *ngIf="headerTitle">{{headerTitle}}</h2>-->
+      <h3>{{user.displayName ? user.displayName : user.email}}</h3>
+
+
+
+    </div>  <!--BANNER ENDS HERE-->
+
+
+    <!--MAIN AREA-->
+    <div class="header__main" id="stickyHeader" [class.sticky]="sticky" #stickHeader>
+      <div class="header__left">
+        <a routerLink="/">
+          <!--<img src="assets/netflix.svg" alt="logo">-->
+        </a>
+        <ul>
+          <li routerLink="/" class="active"><a href="#">Home</a></li>
+        </ul>
+      </div>
+
+      <div class="header__right">
+        <ul>
+          <li routerLink="/search"><a><mat-icon>search</mat-icon></a></li>
+          <li><a href="#">Children</a></li>
+          <li><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
+          <li><a href="#"><mat-icon>notifications</mat-icon></a></li>
+          <li  style="cursor: pointer">
+            <img routerLink="/user" height="30px" width="30px" style="border-radius: 50%" src="{{user && user.photoURL ? user.photoURL : 'assets/images/poster_placeholder.jpg'}}"
+                 alt="avatar">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--HEADER MAIN ENDS HERE-->
+
+    <div class="body" style="margin-top: 30rem;">
+      <div class="container">
+        <div style="padding-top: 12%"></div>
+
+        <div class="row">
+          <img routerLink="/user" height="60px" width="60px" style="border-radius: 50%" src="{{user && user.photoURL ? user.photoURL : 'assets/images/poster_placeholder.jpg'}}"
+               alt="avatar">
+          <p style="padding-left: 10px; padding-top: 16px">{{user.displayName ? user.displayName : user.email}}</p>
+        </div>
+        <hr>
+        <h6>Cosa stai guardando</h6>
+      </div>
+      <div *ngIf="homeScreenMatrix.length>0">
+        <div *ngFor="let list of homeScreenMatrix">
+          <app-slider title="" (openAnime)="onOpenAnime($event)" [sliderConfig]="sliderConfig" [animes]="watchingResume.length>20 ? list : tmpAnimes"></app-slider>
+        </div>
+      </div>
+
+    </div>
+
+</div>
