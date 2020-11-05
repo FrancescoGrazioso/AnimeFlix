@@ -5,9 +5,14 @@
   <div class="anime__images">
     <div class="thumbnails">
       <ngx-slick-carousel [config]="sliderConfig" class="carousel">
-        <div (click)="emitEventOpenAnime(i)" class="slick-item" *ngFor="let m of animes.results; let i = index" ngxSlickItem>
+        <div class="slick-item" *ngFor="let m of animes.results; let i = index" ngxSlickItem>
           <h3>{{cleanTitle(m.realTitle).length > 15 ? cleanTitle(m.realTitle).slice(0,14)+ '...' : cleanTitle(m.realTitle)}}</h3>
-          <img style="max-width: 300px; max-height: 425px" height="425px" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="">
+          <div id="img_container">
+            <img (click)="emitEventOpenAnime(i)" style="max-width: 300px; max-height: 425px" height="425px" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="">
+            <button (click)="emitEventDeleteAnime(i)" *ngIf="router.url === '/user'" class="button btn-danger">
+              <mat-icon class="icon-display">delete</mat-icon>
+            </button>
+          </div>
         </div>
       </ngx-slick-carousel>
     </div>

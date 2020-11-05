@@ -188,9 +188,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.auth.SignOut();
   }
 
-  login() {
-    this.auth.GoogleAuth();
-  }
+
 
   @HostListener('window:scroll', ['$event'])
   // tslint:disable-next-line:typedef

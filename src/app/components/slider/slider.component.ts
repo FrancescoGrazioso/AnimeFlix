@@ -1,5 +1,6 @@
 import {AfterContentInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Anime, Animes} from '../../models/animes';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-slider',
@@ -11,9 +12,11 @@ export class SliderComponent implements OnInit, AfterContentInit {
    @Input() animes: Animes;
    @Input() title: string;
    @Output() openAnime = new EventEmitter<Anime>();
+   @Output() deleteFromUser = new EventEmitter<Anime>();
 
-  constructor() {
-  }
+  constructor(
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
   }
@@ -22,6 +25,10 @@ export class SliderComponent implements OnInit, AfterContentInit {
 
   emitEventOpenAnime(index: number) {
     this.openAnime.emit(this.animes.results[index]);
+  }
+
+  emitEventDeleteAnime(index: number) {
+    this.deleteFromUser.emit(this.animes.results[index]);
   }
 
   cleanTitle(realTitle: string) {

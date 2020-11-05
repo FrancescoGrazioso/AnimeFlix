@@ -1,1 +1,31 @@
-<p>login works!</p>
+<div id="dialog" class="dialog dialog-effect-in">
+  <div class="dialog-front">
+    <div class="dialog-content">
+      <form id="login_form" class="dialog-form" action="">
+        <fieldset>
+          <legend style="color: white">Accedi</legend>
+          <div class="form-group">
+            <label style="color: white" for="username" class="control-label">Email:</label>
+            <input [(ngModel)]="email" type="text" id="username" class="form-control" name="user_username" autofocus/>
+          </div>
+          <div class="form-group">
+            <label style="color: white" for="password" class="control-label">Password:</label>
+            <input [(ngModel)]="pass" type="password" id="password" class="form-control" name="user_password"/>
+          </div>
+          <div class="text-center pad-top-20">
+            <p style="color: white">Hai dimenticato la tua <br> <a href="#" class="link"><strong style="color: #b34444">password</strong></a>?</p>
+          </div>
+          <div class="pad-top-20 pad-btm-20">
+            <input (click)="emailLogin()"  class="btn btn-default btn-block btn-lg" value="Accedi">
+          </div>
+          <div class="pad-top-20 pad-btm-20">
+            <input (click)="googleLogin()"  class="btn btn-default btn-block btn-lg" value="Accedi con Google">
+          </div>
+          <div class="text-center">
+            <p style="color: white">Vuoi registrarti <br> con <a href="#" class="link user-actions"><strong style="color: #b34444">un nuovo account</strong></a>?</p>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

@@ -28,6 +28,7 @@ import { UserComponent } from './components/user/user.component';
 import {AuthService} from './services/auth.service';
 import {AnimeService} from './services/anime.service';
 import {AngularFireAuthModule} from '@angular/fire/auth';
+import { AdminPanelComponent } from './compontents/admin-panel/admin-panel.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
     LoadPlayerComponent,
     LoginComponent,
     RegisterComponent,
-    UserComponent
+    UserComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,

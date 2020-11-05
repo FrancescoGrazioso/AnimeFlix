@@ -46,8 +46,13 @@ export class UserComponent implements OnInit, OnDestroy {
 
   readUserWatchingResume() {
     this.subs.push(
-      this.animeService.readWatchingResme(this.user).subscribe(
+      this.animeService.readWatchingResume(this.user).subscribe(
         (data) => {
+
+          this.homeScreenMatrix = [];
+          this.tmpAnimes = {results : []};
+          this.watchingResume = [];
+
           for (const currentAnime of data) {
             const anime: WatchingResume = currentAnime.payload.val();
             this.watchingResume.push(anime);
@@ -116,6 +121,16 @@ export class UserComponent implements OnInit, OnDestroy {
         this.router.navigate(['player', {videoID: urlToSend, numberEpisode: res.index, title: animeTitle, currentTime: res.currentTime}]);
       }
     });
+  }
+
+  onDeleteAnime(anime: Anime) {
+    this.animeService.deleteWatchingResume(this.user.uid, anime.realTitle).then(
+      () => {
+        /*this.homeScreenMatrix = [];
+        this.tmpAnimes = {results : []};
+        this.readUserWatchingResume();*/
+      }
+    );
   }
 
   @HostListener('window:scroll', ['$event'])

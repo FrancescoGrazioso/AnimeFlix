@@ -50,7 +50,7 @@ export class AnimeService {
     this.af.database.ref('/watchingResume').child(user.uid).child(animeTitle).set(data);
   }
 
-  readWatchingResme(user: User) {
+  readWatchingResume(user: User) {
     const an = this.af.list<WatchingResume>('/watchingResume/' + user.uid);
     return an.snapshotChanges();
   }
@@ -58,6 +58,10 @@ export class AnimeService {
   getAnimeDetails(realTitle: string) {
     const an = this.af.object<Anime>('/anime/' + realTitle);
     return an.snapshotChanges();
+  }
+
+  deleteWatchingResume(userId: string, animeTitle: string) {
+    return this.af.database.ref('/watchingResume').child(userId).child(animeTitle).remove();
   }
 
 }

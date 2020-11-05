@@ -33,18 +33,13 @@
         </a>
         <ul>
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">TV Shows</a></li>
-          <li><a href="#">Animes</a></li>
-          <li><a href="#">Latest</a></li>
-          <li><a href="#">My List</a></li>
         </ul>
       </div>
 
       <div class="header__right">
         <ul>
           <li routerLink="/search"><a><mat-icon>search</mat-icon></a></li>
-          <li><a href="#">Children</a></li>
-          <li (click)="login()"><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
+          <li><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
           <li (click)="logout()"><a href="#"><mat-icon>notifications</mat-icon></a></li>
           <li  style="cursor: pointer">
             <img routerLink="/user" height="30px" width="30px" style="border-radius: 50%" src="{{user && user.photoURL ? user.photoURL : 'assets/images/poster_placeholder.jpg'}}"

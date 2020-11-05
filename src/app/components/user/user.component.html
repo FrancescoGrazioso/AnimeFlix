@@ -28,7 +28,6 @@
       <div class="header__right">
         <ul>
           <li routerLink="/search"><a><mat-icon>search</mat-icon></a></li>
-          <li><a href="#">Children</a></li>
           <li><a href="#"><mat-icon>card_giftcard</mat-icon></a></li>
           <li><a href="#"><mat-icon>notifications</mat-icon></a></li>
           <li  style="cursor: pointer">
@@ -55,7 +54,7 @@
       </div>
       <div *ngIf="homeScreenMatrix.length>0">
         <div *ngFor="let list of homeScreenMatrix">
-          <app-slider title="" (openAnime)="onOpenAnime($event)" [sliderConfig]="sliderConfig" [animes]="watchingResume.length>20 ? list : tmpAnimes"></app-slider>
+          <app-slider title="" (deleteFromUser)="onDeleteAnime($event)" (openAnime)="onOpenAnime($event)" [sliderConfig]="sliderConfig" [animes]="watchingResume.length>20 ? list : tmpAnimes"></app-slider>
         </div>
       </div>
 
