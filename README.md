@@ -16,7 +16,7 @@ The application is open source so you can view the source code and interact with
 - [ ] Profile management
 - [X] Tracking seen episodes
 - [ ] User favourist system
-- [ ] Watch later system
+- [X] Watch later system
 
 
 ## Run on local server
