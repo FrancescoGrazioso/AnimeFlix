@@ -14,7 +14,7 @@ The application is open source so you can view the source code and interact with
 - [X] Anime detail and episodes list
 - [X] Video player
 - [ ] Profile management
-- [ ] Tracking seen episodes
+- [X] Tracking seen episodes
 - [ ] User favourist system
 - [ ] Watch later system
 
