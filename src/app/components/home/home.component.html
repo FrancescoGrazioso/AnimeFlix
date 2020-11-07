@@ -14,7 +14,7 @@
           <span>Play</span>
         </button>-->
 
-        <button class="more-button">
+        <button *ngIf="!user" routerLink="/signIn" class="more-button">
           <mat-icon>account_circle</mat-icon>
           <span>Registrati/Accedi</span>
         </button>

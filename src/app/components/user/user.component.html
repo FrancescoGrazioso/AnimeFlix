@@ -49,8 +49,10 @@
                alt="avatar">
           <p style="padding-left: 10px; padding-top: 16px">{{user.displayName ? user.displayName : user.email}}</p>
         </div>
+        <mat-icon *ngIf="isAdmin" (click)="showAdmin = !showAdmin" style="padding-top: 10px; cursor: pointer">admin_panel_settings</mat-icon>
+        <app-admin-panel *ngIf="isAdmin && showAdmin"></app-admin-panel>
         <hr>
-        <h6>Cosa stai guardando</h6>
+        <h6 *ngIf="homeScreenMatrix.length" >Cosa stai guardando</h6>
       </div>
       <div *ngIf="homeScreenMatrix.length>0">
         <div *ngFor="let list of homeScreenMatrix">

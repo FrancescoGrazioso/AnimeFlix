@@ -28,7 +28,7 @@ import { UserComponent } from './components/user/user.component';
 import {AuthService} from './services/auth.service';
 import {AnimeService} from './services/anime.service';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import { AdminPanelComponent } from './compontents/admin-panel/admin-panel.component';
+import {AdminPanelComponent} from './components/admin-panel/admin-panel.component';
 
 
 @NgModule({

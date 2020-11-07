@@ -25,6 +25,8 @@ export class UserComponent implements OnInit, OnDestroy {
     arrows: true,
     autoplay: false
   };
+  isAdmin = false;
+  showAdmin = false;
 
 
   constructor(
@@ -35,6 +37,16 @@ export class UserComponent implements OnInit, OnDestroy {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.setSliderWidth();
     this.readUserWatchingResume();
+    this.subs.push(this.authService.isAdmin().subscribe(
+      (data) => {
+        for (const admin of data) {
+          if (this.user.email === admin.payload.val()) {
+            this.isAdmin = true;
+            break;
+          }
+        }
+      }
+    ));
   }
 
   ngOnInit() {

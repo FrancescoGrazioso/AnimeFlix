@@ -1,0 +1,32 @@
+<div id="dialog" class="dialog dialog-effect-in">
+  <div class="dialog-front">
+    <div class="dialog-content">
+      <form id="login_form" class="dialog-form" action="">
+        <fieldset>
+          <legend style="color: white">Registrati</legend>
+          <div class="form-group">
+            <label style="color: white" for="username" class="control-label">Email:</label>
+            <input [(ngModel)]="email" style="color: white" type="text" id="username" class="form-control" name="user_username" autofocus/>
+          </div>
+          <div class="form-group">
+            <label style="color: white" for="password" class="control-label">Password:</label>
+            <input [(ngModel)]="pass" style="color: white" type="password" id="password" class="form-control" name="user_password"/>
+          </div>
+          <div class="form-group">
+            <label style="color: white" for="Confirmpassword" class="control-label">Conferma password:</label>
+            <input [(ngModel)]="confPass" style="color: white" type="password" id="Confirmpassword" class="form-control" name="user_password"/>
+          </div>
+          <div class="pad-top-20 pad-btm-20">
+            <input (click)="emailSignUp()"  class="btn btn-default btn-block btn-lg" value="Registrati">
+          </div>
+          <div class="pad-top-20 pad-btm-20">
+            <input (click)="googleLogin()"  class="btn btn-default btn-block btn-lg" value="Registrati con Google">
+          </div>
+          <div class="text-center">
+            <p style="color: white">Hai già un account? <br> Allora <a routerLink="/signIn" class="link user-actions"><strong style="color: #b34444">accedi</strong></a>!</p>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

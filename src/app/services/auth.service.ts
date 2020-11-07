@@ -38,9 +38,11 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['']);
         });
-        this.SetUserData(result.user);
+        this.SetUserData(result.user).then(
+          () => this.router.navigate(['/'])
+        );
       }).catch((error) => {
-        window.alert(error.message);
+        window.alert('Si è verificato un errore, controllare che le credenziali siano scritte correttamente');
       });
   }
 
@@ -50,10 +52,12 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
-        this.SetUserData(result.user);
-      }).catch((error) => {
-        window.alert(error.message);
-      });
+        this.SetUserData(result.user).then(
+          () => this.router.navigate(['/'])
+        );
+      })
+      .catch(e => alert('Si è verificato un errore con la sua registrazione, controlli che i valori siano impostati correttamente. ' +
+        'Si ricorda che password deve essere di almeno 6 caratteri alfanumerici'));
   }
 
 
@@ -62,9 +66,9 @@ export class AuthService {
   ForgotPassword(passwordResetEmail) {
     return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
+        window.alert('Una mail per il recupero password è stata inviata');
       }).catch((error) => {
-        window.alert(error);
+        window.alert('Si è verificato un problema con la mail di recuper password');
       });
   }
 
@@ -72,6 +76,10 @@ export class AuthService {
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return (user !== null && user.emailVerified !== false) ? true : false;
+  }
+
+  isAdmin() {
+    return this.af.list<string>('/admin').snapshotChanges();
   }
 
   // Sign in with Google
