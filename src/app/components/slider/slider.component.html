@@ -9,8 +9,8 @@
           <h3>{{cleanTitle(m.realTitle).length > 15 ? cleanTitle(m.realTitle).slice(0,14)+ '...' : cleanTitle(m.realTitle)}}</h3>
           <div id="img_container">
             <img (click)="emitEventOpenAnime(i)" style="max-width: 300px; max-height: 425px" height="425px" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="">
-            <button (click)="emitEventDeleteAnime(i)" *ngIf="router.url === '/user'" class="button btn-danger">
-              <mat-icon class="icon-display">delete</mat-icon>
+            <button (click)="emitEventDeleteAnime(i)" *ngIf="router.url === '/user'" class="button btn btn-danger">
+              <mat-icon style="padding-top: 5px">delete</mat-icon>
             </button>
           </div>
         </div>

@@ -24,6 +24,8 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/onsenui/css/onsenui.css",
+              "node_modules/onsenui/css/onsen-css-components.css",
               "node_modules/videogular2/fonts/videogular.css",
               "src/custom-theme.scss",
               "src/styles.css",
@@ -97,6 +99,8 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/onsenui/css/onsenui.css",
+              "node_modules/onsenui/css/onsen-css-components.css",
               "node_modules/videogular2/fonts/videogular.css",
               "src/styles.css",
               "src/assets/css/normalize.css",

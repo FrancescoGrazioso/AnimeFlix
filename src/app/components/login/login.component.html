@@ -1,31 +1,33 @@
-<div id="dialog" class="dialog dialog-effect-in">
-  <div class="dialog-front">
-    <div class="dialog-content">
-      <form id="login_form" class="dialog-form" action="">
-        <fieldset>
-          <legend style="color: white">Accedi</legend>
-          <div class="form-group">
-            <label style="color: white" for="username" class="control-label">Email:</label>
-            <input [(ngModel)]="email" style="color: white" type="text" id="username" class="form-control" name="user_username" autofocus/>
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="login-heading mb-4">Bentornato</h3>
+                <div class="form-label-group">
+                  <input [(ngModel)]="email" type="email" id="inputEmail" class="form-control" placeholder="Indirizzo mail" required autofocus>
+                  <label for="inputEmail"></label>
+                </div>
+
+                <div class="form-label-group">
+                  <input [(ngModel)]="pass" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                  <label for="inputPassword"></label>
+                </div>
+
+
+                <button (click)="emailLogin()" class="btn btn-lg btn-danger btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Accedi</button>
+                <button (click)="googleLogin()" class="btn btn-lg btn-danger btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Accedi con Google</button>
+                <div class="text-center">
+                  <a class="small" (click)="forgotPassword()" style="color: #b34444">Password dimenticata?</a></div>
+                <div class="text-center">
+                  <a class="" routerLink="/signUp" style="color: #b34444">Sei nuovo? Registrati!</a></div>
+            </div>
           </div>
-          <div class="form-group">
-            <label style="color: white" for="password" class="control-label">Password:</label>
-            <input [(ngModel)]="pass" style="color: white" type="password" id="password" class="form-control" name="user_password"/>
-          </div>
-          <div class="text-center pad-top-20">
-            <p style="color: white">Hai dimenticato la tua <br> <a (click)="forgotPassword()" class="link"><strong style="color: #b34444">password</strong></a>?</p>
-          </div>
-          <div class="pad-top-20 pad-btm-20">
-            <input (click)="emailLogin()"  class="btn btn-default btn-block btn-lg" value="Accedi">
-          </div>
-          <div class="pad-top-20 pad-btm-20">
-            <input (click)="googleLogin()"  class="btn btn-default btn-block btn-lg" value="Accedi con Google">
-          </div>
-          <div class="text-center">
-            <p style="color: white">Vuoi registrarti <br> con <a routerLink="/signUp" class="link user-actions"><strong style="color: #b34444">un nuovo account</strong></a>?</p>
-          </div>
-        </fieldset>
-      </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

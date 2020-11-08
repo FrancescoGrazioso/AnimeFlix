@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   sliderConfig = {
     slidesToShow: 5,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     arrows: true,
     autoplay: false
   };
@@ -184,10 +184,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subs.map(s => s.unsubscribe());
   }
 
-  logout() {
-    this.auth.SignOut();
-  }
-
 
 
   @HostListener('window:scroll', ['$event'])
@@ -200,6 +196,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       this.sticky = false;
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  // tslint:disable-next-line:typedef
+  handleResize() {
+    this.setSliderWidth();
   }
 
    isCharDigit(n) {

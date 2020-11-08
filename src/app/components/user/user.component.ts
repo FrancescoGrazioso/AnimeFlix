@@ -122,7 +122,7 @@ export class UserComponent implements OnInit, OnDestroy {
       slidesToShow = 11;
     }
 
-    this.sliderConfig.slidesToShow = slidesToShow;
+    this.sliderConfig.slidesToShow = slidesToShow - 2;
   }
 
   onOpenAnime(anime: Anime) {
@@ -155,6 +155,10 @@ export class UserComponent implements OnInit, OnDestroy {
     } else {
       this.sticky = false;
     }
+  }
+
+  logout() {
+    this.authService.SignOut();
   }
 
   ngOnDestroy(): void {

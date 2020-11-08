@@ -1,18 +1,13 @@
-<div *ngIf="!loading" class="continer">
+
+<!--<div *ngIf="!loading" class="continer">
   <div class="header">
-    <!--BANNER AREA-->
     <div class="header__banner"
          [ngStyle]="{
       'background-image' : 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('+'assets/images/1915382.jpg'+')'
       }">
-      <!--<h2 *ngIf="headerTitle">{{headerTitle}}</h2>-->
       <h2>AnimeFlix</h2>
       <div class="header__buttons">
 
-       <!-- <button class="play-button">
-          <mat-icon>arrow_right</mat-icon>
-          <span>Play</span>
-        </button>-->
 
         <button *ngIf="!user" routerLink="/signIn" class="more-button">
           <mat-icon>account_circle</mat-icon>
@@ -22,14 +17,11 @@
       </div>
 
 
-    </div>  <!--BANNER ENDS HERE-->
+    </div>
 
-
-    <!--MAIN AREA-->
     <div class="header__main" id="stickyHeader" [class.sticky]="sticky" #stickHeader>
       <div class="header__left">
         <a routerLink="/">
-          <!--<img src="assets/netflix.svg" alt="logo">-->
         </a>
         <ul>
           <li class="active"><a href="#">Home</a></li>
@@ -47,14 +39,12 @@
           </li>
         </ul>
       </div>
-    </div>  <!--HEADER MAIN ENDS HERE-->
+    </div>
 
   </div>
 
   <div class="body" style="margin-top: 30rem;">
     <div style="padding-top: 10%"></div>
-    <!--<app-slider title="Popular" (openAnime)="openDialog($event)" [animes]="popular" [sliderConfig]="sliderConfig"></app-slider>
-    <app-slider title="Trending" (openAnime)="openDialog($event)" [animes]="trending" [sliderConfig]="sliderConfig"></app-slider>-->
     <div *ngFor="let lista of homeScreenMatrix">
       <app-slider title="" (openAnime)="openDialog($event)" [animes]="lista" [sliderConfig]="sliderConfig"></app-slider>
     </div>
@@ -64,4 +54,27 @@
 
 </div>
 
+-->
 <app-loader *ngIf="loading"></app-loader>
+<ons-page>
+  <app-top-toolbar></app-top-toolbar>
+
+  <div class="background" style="background-color: #0D0D0D"></div>
+
+  <div class="content">
+    <br>
+    <div class="body">
+      <div class="list-container">
+        <div *ngFor="let lista of homeScreenMatrix">
+          <app-slider title="" (openAnime)="openDialog($event)" [animes]="lista" [sliderConfig]="sliderConfig"></app-slider>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+  </div>
+
+  <app-bottom-toolbar></app-bottom-toolbar>
+</ons-page>
+

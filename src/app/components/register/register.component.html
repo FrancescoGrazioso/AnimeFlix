@@ -1,32 +1,37 @@
-<div id="dialog" class="dialog dialog-effect-in">
-  <div class="dialog-front">
-    <div class="dialog-content">
-      <form id="login_form" class="dialog-form" action="">
-        <fieldset>
-          <legend style="color: white">Registrati</legend>
-          <div class="form-group">
-            <label style="color: white" for="username" class="control-label">Email:</label>
-            <input [(ngModel)]="email" style="color: white" type="text" id="username" class="form-control" name="user_username" autofocus/>
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="login-heading mb-4">Benvenuto</h3>
+              <div class="form-label-group">
+                <input [(ngModel)]="email" type="email" id="inputEmail" class="form-control" placeholder="Indirizzo mail" required autofocus>
+                <label for="inputEmail">Emailws</label>
+              </div>
+
+              <div class="form-label-group">
+                <input [(ngModel)]="pass" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <label for="inputPassword">Password</label>
+              </div>
+
+              <div class="form-label-group">
+                <input [(ngModel)]="confPass" type="password" id="inputConfPassword" class="form-control" placeholder="Conferma password" required>
+                <label for="inputConfPassword">Conferma Password</label>
+              </div>
+
+
+              <button (click)="emailSignUp()" class="btn btn-lg btn-danger btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Registrati</button>
+              <button (click)="googleLogin()" class="btn btn-lg btn-danger btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Registrati con Google</button>
+
+              <div class="text-center">
+                <a class="" routerLink="/signIn" style="color: #b34444">Hai già un account? Accedi!</a></div>
+            </div>
           </div>
-          <div class="form-group">
-            <label style="color: white" for="password" class="control-label">Password:</label>
-            <input [(ngModel)]="pass" style="color: white" type="password" id="password" class="form-control" name="user_password"/>
-          </div>
-          <div class="form-group">
-            <label style="color: white" for="Confirmpassword" class="control-label">Conferma password:</label>
-            <input [(ngModel)]="confPass" style="color: white" type="password" id="Confirmpassword" class="form-control" name="user_password"/>
-          </div>
-          <div class="pad-top-20 pad-btm-20">
-            <input (click)="emailSignUp()"  class="btn btn-default btn-block btn-lg" value="Registrati">
-          </div>
-          <div class="pad-top-20 pad-btm-20">
-            <input (click)="googleLogin()"  class="btn btn-default btn-block btn-lg" value="Registrati con Google">
-          </div>
-          <div class="text-center">
-            <p style="color: white">Hai già un account? <br> Allora <a routerLink="/signIn" class="link user-actions"><strong style="color: #b34444">accedi</strong></a>!</p>
-          </div>
-        </fieldset>
-      </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

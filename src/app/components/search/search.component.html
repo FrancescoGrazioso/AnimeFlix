@@ -1,21 +1,35 @@
-<div class="form-group" style="position: sticky; top: 0">
-  <input type="text" class="form-control" placeholder="Inserisci il titolo" [(ngModel)]="term">
-</div>
+<ons-page>
 
-<table class="table">
-  <thead>
-  <tr>
-    <th style="color: white" scope="col">Titolo</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr (click)="openDialog(item)" *ngFor="let item of filterData | filter:term">
-    <td style="color: white">
-      <div class="row">
-        <img height="50px" src="{{item.results ? item.results[0].image_url : ''}}">
-        <p style="padding-left: 10px">{{cleanTitle(item.realTitle)}}</p>
-      </div>
-    </td>
-  </tr>
-  </tbody>
-</table>
+  <app-top-toolbar></app-top-toolbar>
+
+  <div class="background" style="background-color: #0D0D0D"></div>
+
+  <div class="content">
+    <br>
+    <br>
+    <div class="form-group" style="position: sticky; top: 0">
+      <input type="text" class="form-control" placeholder="Inserisci il titolo" [(ngModel)]="term">
+    </div>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th style="color: white" scope="col">Titolo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr (click)="openDialog(item)" *ngFor="let item of filterData | filter:term">
+        <td style="color: white">
+          <div class="row">
+            <img height="50px" src="{{item.results ? item.results[0].image_url : ''}}">
+            <p style="padding-left: 10px">{{cleanTitle(item.realTitle)}}</p>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-bottom-toolbar></app-bottom-toolbar>
+
+</ons-page>

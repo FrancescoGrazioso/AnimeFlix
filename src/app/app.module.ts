@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +29,9 @@ import {AuthService} from './services/auth.service';
 import {AnimeService} from './services/anime.service';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AdminPanelComponent} from './components/admin-panel/admin-panel.component';
+import {OnsenModule} from 'ngx-onsenui';
+import { BottomToolbarComponent } from './components/bottom-toolbar/bottom-toolbar.component';
+import { TopToolbarComponent } from './components/top-toolbar/top-toolbar.component';
 
 
 @NgModule({
@@ -44,10 +47,13 @@ import {AdminPanelComponent} from './components/admin-panel/admin-panel.componen
     LoginComponent,
     RegisterComponent,
     UserComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    BottomToolbarComponent,
+    TopToolbarComponent
   ],
   imports: [
     BrowserModule,
+    OnsenModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
@@ -69,6 +75,7 @@ import {AdminPanelComponent} from './components/admin-panel/admin-panel.componen
   ],
   providers: [AuthService, AnimeService],
   bootstrap: [AppComponent],
-  entryComponents: [AnimeDetailsDialogComponent]
+  entryComponents: [AnimeDetailsDialogComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
