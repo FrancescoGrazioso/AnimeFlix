@@ -4,6 +4,8 @@ export interface Anime {
   request_hash: string;
   request_cached: boolean;
   request_cache_expiry: number;
+  views: number;
+  rating: number;
   results: [
     {
       mal_id: number;

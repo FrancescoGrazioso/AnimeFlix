@@ -19,12 +19,12 @@ export class UserComponent implements OnInit, OnDestroy {
   watchingResume: WatchingResume[] = [];
   homeScreenMatrix: Animes[] = [];
   tmpAnimes: Animes = {results : []};
-  sliderConfig = {
+/*  sliderConfig = {
     slidesToShow: 5,
     slidesToScroll: 1,
     arrows: true,
     autoplay: false
-  };
+  };*/
   isAdmin = false;
   showAdmin = false;
 
@@ -35,7 +35,7 @@ export class UserComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.setSliderWidth();
+    /*this.setSliderWidth();*/
     this.readUserWatchingResume();
     this.subs.push(this.authService.isAdmin().subscribe(
       (data) => {
@@ -95,7 +95,7 @@ export class UserComponent implements OnInit, OnDestroy {
     );
   }
 
-  setSliderWidth() {
+  /*setSliderWidth() {
     const windowsWidth = window.innerWidth;
     let slidesToShow = 0;
     if (windowsWidth < 400) {
@@ -123,7 +123,7 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     this.sliderConfig.slidesToShow = slidesToShow - 2;
-  }
+  }*/
 
   onOpenAnime(anime: Anime) {
     this.watchingResume.map((res) => {
@@ -145,7 +145,7 @@ export class UserComponent implements OnInit, OnDestroy {
     );
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   // tslint:disable-next-line:typedef
   handleScroll() {
     const windowScroll = window.pageYOffset;

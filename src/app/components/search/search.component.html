@@ -18,11 +18,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr (click)="openDialog(item)" *ngFor="let item of filterData | filter:term">
+      <tr *ngFor="let item of filterData | filter:term">
         <td style="color: white">
           <div class="row">
-            <img height="50px" src="{{item.results ? item.results[0].image_url : ''}}">
-            <p style="padding-left: 10px">{{cleanTitle(item.realTitle)}}</p>
+            <div (click)="openDialog(item)" class="col-1">
+              <img height="50px" src="{{item.results ? item.results[0].image_url : ''}}">
+            </div>
+            <div (click)="openDialog(item)" class="col-9">
+              <p style="padding-left: 10px">{{cleanTitle(item.realTitle)}}</p>
+            </div>
+            <div class="col-2" *ngIf="isAdmin">
+              <button (click)="openEditDialog(item)" class="btn btn-success">
+                <mat-icon style="transform: scale(0.8)">create</mat-icon>
+              </button>
+            </div>
           </div>
         </td>
       </tr>

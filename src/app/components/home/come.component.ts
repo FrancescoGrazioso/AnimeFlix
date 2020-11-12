@@ -10,6 +10,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material';
 import {AnimeDetailsDialogComponent} from '../anime-details-dialog/anime-details-dialog.component';
 import {AuthService} from '../../services/auth.service';
 import {User} from '../../models/user';
+import {Banner} from '../../models/banner';
 
 @Component({
   selector: 'app-home',
@@ -21,19 +22,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   subs: Subscription[] = [];
   loading = false;
   user: User;
+  banner: Banner;
 
   homeScreenMatrix: Animes[] = [];
 
-  sliderConfig = {
-    slidesToShow: 5,
-    slidesToScroll: 2,
-    arrows: true,
-    autoplay: false
-  };
-
   headerBGUrl: string;
   headerTitle: string;
-  titleList: string[] = [];
+
 
   constructor(private anime: AnimeService,
               private  af: AngularFireDatabase,
@@ -41,7 +36,12 @@ export class HomeComponent implements OnInit, OnDestroy {
               private auth: AuthService,
               private dialog: MatDialog) {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.setSliderWidth();
+    /*this.banner = {
+      adClient: 'ca-pub-YOURID',
+      adSlot: YOURSLOT,
+      adFormat: 'auto',
+      fullWidthResponsive: true
+    };*/
   }
 
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.results[0].image_url; }
         if (!this.headerTitle) { this.headerTitle = currentAnime.realTitle; }
 
-        if (tmpAnimes.results.length < 20 ) {
+        if (tmpAnimes.results.length < 30 ) {
           tmpAnimes.results.push(currentAnime);
         } else {
           this.homeScreenMatrix.push(tmpAnimes);
@@ -63,49 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       this.loading = false;
     } else {
-      this.readFromNewSource();
       this.uploadNewAnime();
-    }
-  }
-
-  readFromNewSource() {
-    // tslint:disable-next-line:forin
-    for (const key in mainURL) {
-      this.subs.push(this.anime.populateAnimeList(key).subscribe(
-        t => {
-          let htmlPage = t;
-          htmlPage = htmlPage.slice(htmlPage.indexOf('<li>'), htmlPage.indexOf('</ul>'));
-          const tmpList = htmlPage.split('<li>');
-          tmpList.pop();
-          for (let link of tmpList) {
-            link = link.slice(link.indexOf('\'>') + 2, link.indexOf('</a'));
-            this.titleList.push(link);
-          }
-          for (const link of this.titleList) {
-            if (link && (link.indexOf('.') === -1)) {
-              this.af.database.ref('/anime').child(link).once('value', snap => {
-                if (!snap.exists()) {
-                  let tmpLink = link;
-                  if (this.isCharDigit(link.charAt(link.length - 1))) {
-                    tmpLink = tmpLink.slice(0, -1);
-                  }
-                  const titolo = tmpLink.match(/[A-Z][a-z]+|[0-9]+/g);
-                  if (titolo) {
-                    this.subs.push(this.anime.getAnimeInfo(titolo.join('+')).subscribe(
-                      data => {
-                        data.key = key;
-                        data.realTitle = link;
-                        this.af.database.ref('/anime').child(link).set(data);
-                        console.log('added ' + link);
-                      }
-                    ));
-                  }
-                }
-              });
-            }
-          }
-        }
-      ));
     }
   }
 
@@ -119,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.payload.val().results[0].image_url; }
           if (!this.headerTitle) { this.headerTitle = currentAnime.payload.val().realTitle; }
 
-          if (tmpAnimes.results.length < 20 ) {
+          if (tmpAnimes.results.length < 30 ) {
             tmpAnimes.results.push(currentAnime.payload.val());
           } else {
             this.homeScreenMatrix.push(tmpAnimes);
@@ -150,43 +108,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dialog.open(AnimeDetailsDialogComponent, dialogConfig);
   }
 
-  setSliderWidth() {
-    const windowsWidth = window.innerWidth;
-    let slidesToShow = 0;
-    if (windowsWidth < 400) {
-      slidesToShow = 1;
-    } else if (windowsWidth < 800) {
-      slidesToShow = 2;
-    } else if (windowsWidth < 1100) {
-      slidesToShow = 3;
-    } else if (windowsWidth < 1400) {
-      slidesToShow = 4;
-    } else if (windowsWidth < 1700) {
-      slidesToShow = 5;
-    } else if (windowsWidth < 2000) {
-      slidesToShow = 6;
-    } else if (windowsWidth < 2400) {
-      slidesToShow = 7;
-    }  else if (windowsWidth < 3000) {
-      slidesToShow = 8;
-    }  else if (windowsWidth < 3500) {
-      slidesToShow = 9;
-    }  else if (windowsWidth < 4000) {
-      slidesToShow = 10;
-    } else {
-      slidesToShow = 11;
-    }
-
-    this.sliderConfig.slidesToShow = slidesToShow;
-  }
-
   ngOnDestroy(): void {
     this.subs.map(s => s.unsubscribe());
   }
 
 
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   // tslint:disable-next-line:typedef
   handleScroll() {
     const windowScroll = window.pageYOffset;
@@ -196,16 +124,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       this.sticky = false;
     }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  // tslint:disable-next-line:typedef
-  handleResize() {
-    this.setSliderWidth();
-  }
-
-   isCharDigit(n) {
-    return !!n.trim() && n * 0 === 0;
   }
 
 

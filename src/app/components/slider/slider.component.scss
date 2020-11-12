@@ -3,7 +3,7 @@ h2 {
   color: white;
 }
 
-h3 {
+h3, h5 {
   color: white;
 }
 
@@ -44,4 +44,11 @@ img {
   width: 45px;
   height: 45px;
   border-radius: 50%;
+}
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

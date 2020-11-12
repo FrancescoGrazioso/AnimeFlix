@@ -32,6 +32,11 @@ import {AdminPanelComponent} from './components/admin-panel/admin-panel.componen
 import {OnsenModule} from 'ngx-onsenui';
 import { BottomToolbarComponent } from './components/bottom-toolbar/bottom-toolbar.component';
 import { TopToolbarComponent } from './components/top-toolbar/top-toolbar.component';
+import {AdsenseModule} from 'ng2-adsense';
+import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
+import {ScrollHooks, LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule} from 'ng-lazyload-image';
+import { EditAnimeComponent } from './components/edit-anime/edit-anime.component';
+import { BannerComponent } from './components/banner/banner.component';
 
 
 @NgModule({
@@ -49,7 +54,10 @@ import { TopToolbarComponent } from './components/top-toolbar/top-toolbar.compon
     UserComponent,
     AdminPanelComponent,
     BottomToolbarComponent,
-    TopToolbarComponent
+    TopToolbarComponent,
+    ComingSoonComponent,
+    EditAnimeComponent,
+    BannerComponent
   ],
   imports: [
     BrowserModule,
@@ -71,11 +79,16 @@ import { TopToolbarComponent } from './components/top-toolbar/top-toolbar.compon
     VgOverlayPlayModule,
     Ng2SearchPipeModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-1699180465186643',
+      adSlot: 2439043079
+    }),
+    LazyLoadImageModule
   ],
-  providers: [AuthService, AnimeService],
+  providers: [AuthService, AnimeService, { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }],
   bootstrap: [AppComponent],
-  entryComponents: [AnimeDetailsDialogComponent],
+  entryComponents: [AnimeDetailsDialogComponent, EditAnimeComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

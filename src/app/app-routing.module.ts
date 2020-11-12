@@ -8,6 +8,7 @@ import {UserComponent} from './components/user/user.component';
 import {LoginComponent} from './components/login/login.component';
 import {RegisterComponent} from './components/register/register.component';
 import {UserGuard} from './guards/user.guard';
+import {ComingSoonComponent} from './components/coming-soon/coming-soon.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'user', component: UserComponent, canActivate: [UserGuard]},
   {path: 'signIn', component: LoginComponent},
   {path: 'signUp', component: RegisterComponent},
+  {path: 'comingSoon', component: ComingSoonComponent},
 ];
 
 @NgModule({

@@ -23,6 +23,6 @@
   </vg-controls>
 
   <video autoplay #media [vgMedia]="media" id="singleVideo" preload="auto" crossorigin>
-    <source src="{{currentEpisode}}" type="video/mp4">
+    <source src="{{'https://cors-anywhere.herokuapp.com/' + currentEpisode}}" type="video/mp4">
   </video>
 </vg-player>

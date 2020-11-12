@@ -1,22 +1,28 @@
 <h2>{{title}}</h2>
 
 <span *ngIf="animes">
-  <div class="anime">
-  <div class="anime__images">
-    <div class="thumbnails">
-      <ngx-slick-carousel [config]="sliderConfig" class="carousel">
-        <div class="slick-item" *ngFor="let m of animes.results; let i = index" ngxSlickItem>
-          <h3>{{cleanTitle(m.realTitle).length > 15 ? cleanTitle(m.realTitle).slice(0,14)+ '...' : cleanTitle(m.realTitle)}}</h3>
-          <div id="img_container">
-            <img (click)="emitEventOpenAnime(i)" style="max-width: 300px; max-height: 425px" height="425px" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="">
-            <button (click)="emitEventDeleteAnime(i)" *ngIf="router.url === '/user'" class="button btn btn-danger">
-              <mat-icon style="padding-top: 5px">delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </ngx-slick-carousel>
-    </div>
-  </div>
-</div>
+
+  <ons-row  *ngIf="isHorizzontal">
+      <ons-col width="10%" *ngFor="let m of animes.results; let i = index">
+        <h3 class="truncate">{{m.results[0].title}}</h3>
+        <!--<img (click)="emitEventOpenAnime(i)" [lazyLoad]="m?.results[0].image_url" [defaultImage]="'assets/images/poster_placeholder.jpg'" alt="" width="100%" style="padding-left: 5px; cursor: pointer">-->
+        <img (click)="emitEventOpenAnime(i)" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="" width="100%" style="padding-left: 5px; cursor: pointer">
+        <button (click)="emitEventDeleteAnime(i)" *ngIf="router.url === '/user'" class="btn btn-danger">
+          <mat-icon style="padding-top: 5px">delete</mat-icon>
+        </button>
+      </ons-col>
+   </ons-row>
+
+    <ons-row  *ngIf="!isHorizzontal">
+      <ons-col width="33%" *ngFor="let m of animes.results; let i = index">
+        <h5 class="truncate">{{m.results[0].title}}</h5>
+        <img (click)="emitEventOpenAnime(i)" src="{{m?.results ? m?.results[0].image_url : 'assets/images/poster_placeholder.jpg'}}" alt="" width="100%" style="padding-left: 5px; cursor: pointer">
+        <button (click)="emitEventDeleteAnime(i)" *ngIf="router.url === '/user'" class="btn btn-danger">
+          <mat-icon style="padding-top: 5px">delete</mat-icon>
+        </button>
+      </ons-col>
+    </ons-row>
+
+
 
 </span>

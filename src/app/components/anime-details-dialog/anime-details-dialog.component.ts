@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {Anime} from '../../models/animes';
 import {Subscription} from 'rxjs';
@@ -18,6 +18,8 @@ export class AnimeDetailsDialogComponent implements OnInit, OnDestroy {
   subs: Subscription[] = [];
   episodesList: string[] = [];
   populated = false;
+  errorMessage: string;
+  isHorizzontal: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<AnimeDetailsDialogComponent>,
@@ -25,8 +27,9 @@ export class AnimeDetailsDialogComponent implements OnInit, OnDestroy {
     private animeService: AnimeService,
     private router: Router) {
     this.anime = data.animeSelected;
-    this.title = data.animeSelected.realTitle.match(/[A-Z][a-z]+|[0-9]+/g).join(' ');
+    this.title = data.animeSelected.results[0].title;
     this.headerImage = data.animeSelected.results[0].image_url;
+    this.setHorizzontal();
   }
 
   ngOnInit() {
@@ -41,6 +44,11 @@ export class AnimeDetailsDialogComponent implements OnInit, OnDestroy {
           link = link.slice(link.indexOf('/http') + 1, link.indexOf(' target') - 1);
           this.episodesList.push(link);
         }
+        this.populated = true;
+      },
+      error => {
+        console.log(error.status)
+        this.errorMessage = 'Per motivi di copyright non possiamo riprodurre gli episodi di ' + this.title;
         this.populated = true;
       }
     ));
@@ -62,6 +70,20 @@ export class AnimeDetailsDialogComponent implements OnInit, OnDestroy {
     const animeTitle = btoa(this.anime.realTitle);
     this.router.navigate(['player', {videoID: urlToSend, numberEpisode: index, title: animeTitle}]);
     this.close();
+  }
+
+  setHorizzontal() {
+    if (window.innerWidth > window.innerHeight) { /* orizzontale */
+      this.isHorizzontal = true;
+    } else { /* verticale */
+      this.isHorizzontal = false;
+    }
+  }
+
+  @HostListener('window:resize')
+  // tslint:disable-next-line:typedef
+  handleResize() {
+    this.setHorizzontal();
   }
 
 }

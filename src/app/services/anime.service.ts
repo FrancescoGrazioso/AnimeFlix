@@ -27,16 +27,16 @@ export class AnimeService {
   }
 
   populateAnimeEpisodes(key: string, title: string) {
-    return this.http.get(this.mainURLS[key] + '/DDL/ANIME/' + title + '/', {responseType: 'text'});
+    return this.http.get('https://cors-anywhere.herokuapp.com/' + this.mainURLS[key] + '/DDL/ANIME/' + title + '/', {responseType: 'text'});
   }
 
   populateAnimeList(key: string) {
     // tslint:disable-next-line:forin
-    return this.http.get(this.mainURLS[key] + 'DDL/ANIME/', {responseType: 'text'});
+    return this.http.get('https://cors-anywhere.herokuapp.com/' + this.mainURLS[key] + 'DDL/ANIME/', {responseType: 'text'});
   }
 
   getAnimeInfo(title: string) {
-    return this.http.get<Anime>('https://api.jikan.moe/v3/search/anime?q=' + title + '&limit=1');
+    return this.http.get<Anime>('https://cors-anywhere.herokuapp.com/' + 'https://api.jikan.moe/v3/search/anime?q=' + title + '&limit=1');
   }
 
   uploadEpisodeStatus(user: User, animeTitle: string, videoUrl: string, index: number, currentTime: number) {
@@ -62,6 +62,10 @@ export class AnimeService {
 
   deleteWatchingResume(userId: string, animeTitle: string) {
     return this.af.database.ref('/watchingResume').child(userId).child(animeTitle).remove();
+  }
+
+  editAnime(anime: Anime) {
+    return this.af.database.ref('/anime').child(anime.realTitle).set(anime);
   }
 
 }

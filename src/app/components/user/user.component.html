@@ -19,10 +19,12 @@
       <hr>
       <h6 *ngIf="homeScreenMatrix.length" >Cosa stai guardando</h6>
       <h6 *ngIf="!homeScreenMatrix.length" >Ancora non hai guardato niente, inizia subito la tua esperienza!</h6>
-
+    </div>
+    <ng-adsense [adClient]="'ca-pub-1699180465186643'" [adSlot]="'2218345941'" [pageLevelAds]="true"></ng-adsense>
+    <div class="list-container">
       <div *ngIf="homeScreenMatrix.length>0">
         <div *ngFor="let list of homeScreenMatrix">
-          <app-slider title="" (deleteFromUser)="onDeleteAnime($event)" (openAnime)="onOpenAnime($event)" [sliderConfig]="sliderConfig" [animes]="watchingResume.length>20 ? list : tmpAnimes"></app-slider>
+          <app-slider title="" (deleteFromUser)="onDeleteAnime($event)" (openAnime)="onOpenAnime($event)" [animes]="watchingResume.length>20 ? list : tmpAnimes"></app-slider>
         </div>
       </div>
     </div>
