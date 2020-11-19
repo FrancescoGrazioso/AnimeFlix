@@ -1,0 +1,31 @@
+name: Deploy Angular SPA to GitHub Pages # Il nome della Action
+
+on:
+  push:
+    branches:
+      - master # La action verrà eseguita in caso di push sul branch master del nostro repository
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # La action verrà eseguita su l'ultima versione di Ubuntu
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2 # Operazione di checkout standard utile per la CI
+      with:
+        persist-credentials: false
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1 # Setup di Node utilizzando la action https://github.com/actions/setup-node
+      with:
+        node-version: '10.x' # Nel nostro caso, utilizziamo la versione 10.x di Node
+    - name: Build
+      run: | # Esecuzione dei comandi di setup e build del progetto Angular, non dimenticando il parametro --base-href nel comando di build!
+         npm install -g @angular/cli
+         npm install
+         ng build --prod --base-href="/AnimeFLix/"
+    - name: Deploy
+      uses: FrancescoGrazioso/AnimeFlix # Deploy su GitHub Pages utilizzando la action https://github.com/JamesIves/github-pages-deploy-action
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # Indichiamo l'accesso token creato per essere autenticati correttamente, prelevandolo dalle Secrets
+        BASE_BRANCH: master
+        BRANCH: gh-pages # Il branch che contiene il progetto pubblicato sulle GitHub Pages
+        FOLDER: dist # Folder dove è stata eseguita la build del nostro progetto Angular
