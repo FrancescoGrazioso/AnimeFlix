@@ -1,13 +1,13 @@
 name: Deploy Angular SPA to GitHub Pages # Il nome della Action
 
 on:
-  push: 
-    branches:   
+  push:
+    branches:
       - master # La action verrà eseguita in caso di push sul branch master del nostro repository
 
 jobs:
   build:
-    runs-on: ubuntu-latest # La action verrà eseguita su l'ultima versione di Ubuntu 
+    runs-on: ubuntu-latest # La action verrà eseguita su l'ultima versione di Ubuntu
     steps:
     - name: Checkout
       uses: actions/checkout@v2 # Operazione di checkout standard utile per la CI
@@ -23,7 +23,7 @@ jobs:
          npm install
          ng build --prod --base-href="/AnimeFLix/"
     - name: Deploy
-      uses: FrancescoGrazioso/github-pages-deploy-action@releases/v2 # Deploy su GitHub Pages utilizzando la action https://github.com/JamesIves/github-pages-deploy-action
+      uses: FrancescoGrazioso/AnimeFlix # Deploy su GitHub Pages utilizzando la action https://github.com/JamesIves/github-pages-deploy-action
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # Indichiamo l'accesso token creato per essere autenticati correttamente, prelevandolo dalle Secrets
         BASE_BRANCH: master
