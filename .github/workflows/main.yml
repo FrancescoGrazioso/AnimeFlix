@@ -23,7 +23,7 @@ jobs:
          npm install
          ng build --prod --base-href="/AnimeFLix/"
     - name: Deploy
-      uses: FrancescoGrazioso/AnimeFlix # Deploy su GitHub Pages utilizzando la action https://github.com/JamesIves/github-pages-deploy-action
+      uses: ./ # Deploy su GitHub Pages utilizzando la action https://github.com/JamesIves/github-pages-deploy-action
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }} # Indichiamo l'accesso token creato per essere autenticati correttamente, prelevandolo dalle Secrets
         BASE_BRANCH: master
