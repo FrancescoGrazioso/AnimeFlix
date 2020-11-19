@@ -34,9 +34,10 @@ import { BottomToolbarComponent } from './components/bottom-toolbar/bottom-toolb
 import { TopToolbarComponent } from './components/top-toolbar/top-toolbar.component';
 import {AdsenseModule} from 'ng2-adsense';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
-import {ScrollHooks, LAZYLOAD_IMAGE_HOOKS, LazyLoadImageModule} from 'ng-lazyload-image';
 import { EditAnimeComponent } from './components/edit-anime/edit-anime.component';
-import { BannerComponent } from './components/banner/banner.component';
+import {RatingModule} from 'ng-starrating';
+import {AngularFirestore, AngularFirestoreModule} from '@angular/fire/firestore';
+import { PaypalButtonComponent } from './components/paypal-button/paypal-button.component';
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import { BannerComponent } from './components/banner/banner.component';
     TopToolbarComponent,
     ComingSoonComponent,
     EditAnimeComponent,
-    BannerComponent
+    PaypalButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +71,7 @@ import { BannerComponent } from './components/banner/banner.component';
     HttpClientModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule,
     MatDialogModule,
     ReactiveFormsModule,
@@ -84,9 +86,9 @@ import { BannerComponent } from './components/banner/banner.component';
       adClient: 'ca-pub-1699180465186643',
       adSlot: 2439043079
     }),
-    LazyLoadImageModule
+    RatingModule
   ],
-  providers: [AuthService, AnimeService, { provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }],
+  providers: [AuthService, AnimeService],
   bootstrap: [AppComponent],
   entryComponents: [AnimeDetailsDialogComponent, EditAnimeComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

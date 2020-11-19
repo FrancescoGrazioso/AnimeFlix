@@ -11,6 +11,7 @@ import {AnimeDetailsDialogComponent} from '../anime-details-dialog/anime-details
 import {AuthService} from '../../services/auth.service';
 import {User} from '../../models/user';
 import {Banner} from '../../models/banner';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-home',
@@ -26,12 +27,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   homeScreenMatrix: Animes[] = [];
 
-  headerBGUrl: string;
-  headerTitle: string;
-
 
   constructor(private anime: AnimeService,
               private  af: AngularFireDatabase,
+              private firestore: AngularFirestore,
               private http: HttpClient,
               private auth: AuthService,
               private dialog: MatDialog) {
@@ -42,6 +41,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       adFormat: 'auto',
       fullWidthResponsive: true
     };*/
+    this.banner = {
+      adClient: 'ca-pub-1699180465186643',
+      adSlot: 2439043079,
+      adFormat: 'auto',
+      fullWidthResponsive: true
+    };
   }
 
   ngOnInit(): void {
@@ -50,11 +55,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (jsonAnimeList) {
       const tmpAnimeList: Animes = JSON.parse(jsonAnimeList);
       let tmpAnimes: Animes = { results: [] };
+      tmpAnimeList.results = tmpAnimeList.results.reverse();
       for (const currentAnime of tmpAnimeList.results) {
-        if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.results[0].image_url; }
-        if (!this.headerTitle) { this.headerTitle = currentAnime.realTitle; }
 
-        if (tmpAnimes.results.length < 30 ) {
+        if (tmpAnimes.results.length < 20 ) {
           tmpAnimes.results.push(currentAnime);
         } else {
           this.homeScreenMatrix.push(tmpAnimes);
@@ -63,32 +67,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       this.loading = false;
     } else {
-      this.uploadNewAnime();
+      this.populateHomeList();
     }
-  }
-
-  uploadNewAnime() {
-    const an = this.af.list<Anime>('/anime');
-    this.subs.push(an.snapshotChanges().subscribe(
-      datas => {
-        let tmpAnimes: Animes = { results: [] };
-        const  allAnimes: Animes = { results: []};
-        for (const currentAnime of datas) {
-          if (!this.headerBGUrl) { this.headerBGUrl = currentAnime.payload.val().results[0].image_url; }
-          if (!this.headerTitle) { this.headerTitle = currentAnime.payload.val().realTitle; }
-
-          if (tmpAnimes.results.length < 30 ) {
-            tmpAnimes.results.push(currentAnime.payload.val());
-          } else {
-            this.homeScreenMatrix.push(tmpAnimes);
-            tmpAnimes = { results: [] };
-          }
-          allAnimes.results.push(currentAnime.payload.val());
-        }
-        this.loading = false;
-        localStorage.setItem('animeList', JSON.stringify(allAnimes));
-      }
-    ));
   }
 
   openDialog(anime: Anime) {
@@ -112,7 +92,37 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subs.map(s => s.unsubscribe());
   }
 
+  populateHomeList() {
+    // tslint:disable-next-line:no-shadowed-variable
+    const ref = this.firestore.collection<Anime>('anime', ref => ref.orderBy('views').limitToLast(21));
+    return ref.get().toPromise().then(
+      (data) => {
+        const  allAnimes = { results: []};
+        data.forEach((obj => {
+          const docData = obj.data();
+          const currentAnime = docData;
+          allAnimes.results.push(currentAnime);
+        }));
+        localStorage.setItem('animeList', JSON.stringify(allAnimes));
+        const jsonAnimeList = localStorage.getItem('animeList');
+        if (jsonAnimeList) {
+          const tmpAnimeList: Animes = JSON.parse(jsonAnimeList);
+          let tmpAnimes: Animes = { results: [] };
+          tmpAnimeList.results = tmpAnimeList.results.reverse();
+          for (const currentAnime of tmpAnimeList.results) {
 
+            if (tmpAnimes.results.length < 20 ) {
+              tmpAnimes.results.push(currentAnime);
+            } else {
+              this.homeScreenMatrix.push(tmpAnimes);
+              tmpAnimes = { results: [] };
+            }
+          }
+          this.loading = false;
+        }
+      }
+    );
+  }
 
   @HostListener('window:scroll')
   // tslint:disable-next-line:typedef
@@ -125,6 +135,5 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.sticky = false;
     }
   }
-
 
 }

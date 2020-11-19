@@ -1,4 +1,3 @@
-<app-loader *ngIf="loading"></app-loader>
 <ons-page>
   <app-top-toolbar></app-top-toolbar>
 
@@ -7,19 +6,20 @@
   <div class="content">
     <br>
     <br>
-    <div class="body">
+    <br>
+    <div class="body" *ngIf="!loading">
+      <app-paypal-button></app-paypal-button>
       <div class="list-container">
-        <app-banner [banner]="banner"></app-banner>
         <div *ngFor="let lista of homeScreenMatrix; let i = index">
-          <app-slider title="" (openAnime)="openDialog($event)" [animes]="lista"></app-slider>-
+          <app-slider title="I più visti" (openAnime)="openDialog($event)" [animes]="lista"></app-slider>-
         </div>
       </div>
     </div>
+    <app-loader *ngIf="loading"></app-loader>
     <br>
     <br>
     <br>
   </div>
-
   <app-bottom-toolbar></app-bottom-toolbar>
 </ons-page>
 

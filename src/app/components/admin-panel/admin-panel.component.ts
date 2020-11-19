@@ -3,6 +3,8 @@ import {mainURL} from '../../../environments/environment';
 import {Subscription} from 'rxjs';
 import {AnimeService} from '../../services/anime.service';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Anime, Animes} from '../../models/animes';
 
 @Component({
   selector: 'app-admin-panel',
@@ -15,13 +17,14 @@ export class AdminPanelComponent implements OnInit {
 
   constructor(
     private anime: AnimeService,
-    private  af: AngularFireDatabase
+    private  af: AngularFireDatabase,
+    private firestore: AngularFirestore
   ) { }
 
   ngOnInit() {
   }
 
-  readFromNewSource() {
+  readFromNewSourceFirestore() {
     // tslint:disable-next-line:forin
     for (const key in mainURL) {
       this.subs.push(this.anime.populateAnimeList(key).subscribe(
@@ -36,10 +39,10 @@ export class AdminPanelComponent implements OnInit {
           }
           let i = 0;
           for (const link of this.titleList) {
-            if (i > 10) {break;}
+            if (i > 10) {break; }
             if (link && (link.indexOf('.') === -1)) {
-              this.af.database.ref('/anime').child(link).once('value', snap => {
-                if (!snap.exists()) {
+              this.firestore.collection('anime').doc<Anime>(link).get().subscribe(snap => {
+                if (!snap.exists) {
                   i++;
                   let tmpLink = link;
                   if (this.isCharDigit(link.charAt(link.length - 1))) {
@@ -51,7 +54,7 @@ export class AdminPanelComponent implements OnInit {
                       data => {
                         data.key = key;
                         data.realTitle = link;
-                        this.af.database.ref('/anime').child(link).set(data);
+                        this.firestore.collection('anime').doc<Anime>(link).set(data);
                         console.log('added ' + link);
                       },
                       error => {}

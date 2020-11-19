@@ -1,29 +1,25 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { mainURL} from 'src/environments/environment';
-import {Observable} from 'rxjs';
 import {Anime, Animes} from '../models/animes';
 import {User} from '../models/user';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {WatchingResume} from '../models/watchingResume';
+import {AngularFirestore} from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
+import FieldValue = firebase.firestore.FieldValue;
 
-const enum endpoint {
-  popular = '/movie/popular',
-  trending = '/trending/all/week'
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnimeService {
-  private URL = 'https://api.themoviedb.org/3';
-  private APIURL = 'http://www.omdbapi.com/';
-  // tslint:disable-next-line:variable-name
 
   private mainURLS = mainURL;
 
   constructor(private http: HttpClient,
-              private  af: AngularFireDatabase ) {
+              private  af: AngularFireDatabase,
+              private firestore: AngularFirestore) {
   }
 
   populateAnimeEpisodes(key: string, title: string) {
@@ -40,32 +36,53 @@ export class AnimeService {
   }
 
   uploadEpisodeStatus(user: User, animeTitle: string, videoUrl: string, index: number, currentTime: number) {
-    const data: WatchingResume = {
+    const wr: WatchingResume = {
       uid: user.uid,
       animeTitle,
       videoUrl,
       index,
       currentTime
     };
-    this.af.database.ref('/watchingResume').child(user.uid).child(animeTitle).set(data);
+    const data = {[animeTitle]: wr};
+    this.firestore.collection('watchingResume').doc(user.uid).get().toPromise().then(
+      (doc) => {
+        if (doc.exists) {
+          this.firestore.collection('watchingResume').doc(user.uid).update(data);
+        } else {
+          this.firestore.collection('watchingResume').doc(user.uid).set(data);
+        }
+      }
+    );
   }
 
   readWatchingResume(user: User) {
-    const an = this.af.list<WatchingResume>('/watchingResume/' + user.uid);
-    return an.snapshotChanges();
+    return this.firestore.collection('watchingResume').doc(user.uid).get();
   }
 
   getAnimeDetails(realTitle: string) {
-    const an = this.af.object<Anime>('/anime/' + realTitle);
-    return an.snapshotChanges();
+    const an = this.firestore.collection('anime').doc<Anime>(realTitle).get();
+    return an;
   }
 
   deleteWatchingResume(userId: string, animeTitle: string) {
-    return this.af.database.ref('/watchingResume').child(userId).child(animeTitle).remove();
+    return this.firestore.collection('watchingResume').doc(userId).update(
+      {[animeTitle]: FieldValue.delete()}
+    );
   }
 
-  editAnime(anime: Anime) {
-    return this.af.database.ref('/anime').child(anime.realTitle).set(anime);
+  editAnimeSynopsis(anime: Anime) {
+    return this.firestore.collection('anime').doc(anime.realTitle).update({
+      results: [{synopsis: anime.results[0].synopsis}]
+    });
   }
 
+  updateAnimeViewCounter(anime: Anime, newViewCounter: number) {
+    return this.firestore.collection('anime').doc(anime.realTitle).update({views: newViewCounter});
+  }
+
+  updateAnimeRating(anime: Anime) {
+    return this.firestore.collection('anime').doc(anime.realTitle).update({
+      rating: anime.rating
+    });
+  }
 }

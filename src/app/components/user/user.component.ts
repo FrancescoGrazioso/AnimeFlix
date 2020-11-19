@@ -19,12 +19,6 @@ export class UserComponent implements OnInit, OnDestroy {
   watchingResume: WatchingResume[] = [];
   homeScreenMatrix: Animes[] = [];
   tmpAnimes: Animes = {results : []};
-/*  sliderConfig = {
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    arrows: true,
-    autoplay: false
-  };*/
   isAdmin = false;
   showAdmin = false;
 
@@ -52,78 +46,42 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  getUserPic() {
-    return this.user && this.user.photoURL ? this.user.photoURL : 'assets/images/poster_placeholder.jpg';
-  }
-
   readUserWatchingResume() {
-    this.subs.push(
-      this.animeService.readWatchingResume(this.user).subscribe(
-        (data) => {
-
-          this.homeScreenMatrix = [];
-          this.tmpAnimes = {results : []};
-          this.watchingResume = [];
-
-          for (const currentAnime of data) {
-            const anime: WatchingResume = currentAnime.payload.val();
-            this.watchingResume.push(anime);
-          }
-
-          for (const res of this.watchingResume) {
-            this.subs.push(
-              this.animeService.getAnimeDetails(res.animeTitle).subscribe(
-                (datas) => {
-                  const anime: Anime = datas.payload.val();
-                  if (this.watchingResume.length >= 20) {
-                    if (this.tmpAnimes.results.length < 20 ) {
-                      this.tmpAnimes.results.push(anime);
-                    } else {
-                      this.homeScreenMatrix.push(this.tmpAnimes);
-                      this.tmpAnimes = { results: [] };
-                    }
-                  } else {
-                    this.tmpAnimes.results.push(anime);
-                    this.homeScreenMatrix = [{results : []}];
-                  }
-                }
-              )
-            );
-          }
+    this.animeService.readWatchingResume(this.user).toPromise().then(
+      (data) => {
+        this.homeScreenMatrix = [];
+        this.tmpAnimes = {results : []};
+        this.watchingResume = [];
+        // tslint:disable-next-line:forin
+        for (const key in data.data()) {
+          const currentAnime = data.data()[key];
+          const wr: WatchingResume = new WatchingResume(currentAnime);
+          this.watchingResume.push(wr);
         }
-      )
+
+        for (const res of this.watchingResume) {
+          this.subs.push(
+            this.animeService.getAnimeDetails(res.animeTitle).subscribe(
+              (datas) => {
+                const anime: Anime = new Anime(datas.data());
+                if (this.watchingResume.length >= 20) {
+                  if (this.tmpAnimes.results.length < 20 ) {
+                    this.tmpAnimes.results.push(anime);
+                  } else {
+                    this.homeScreenMatrix.push(this.tmpAnimes);
+                    this.tmpAnimes = { results: [] };
+                  }
+                } else {
+                  this.tmpAnimes.results.push(anime);
+                  this.homeScreenMatrix = [{results : []}];
+                }
+              }
+            )
+          );
+        }
+      }
     );
   }
-
-  /*setSliderWidth() {
-    const windowsWidth = window.innerWidth;
-    let slidesToShow = 0;
-    if (windowsWidth < 400) {
-      slidesToShow = 1;
-    } else if (windowsWidth < 800) {
-      slidesToShow = 2;
-    } else if (windowsWidth < 1100) {
-      slidesToShow = 3;
-    } else if (windowsWidth < 1400) {
-      slidesToShow = 4;
-    } else if (windowsWidth < 1700) {
-      slidesToShow = 5;
-    } else if (windowsWidth < 2000) {
-      slidesToShow = 6;
-    } else if (windowsWidth < 2400) {
-      slidesToShow = 7;
-    }  else if (windowsWidth < 3000) {
-      slidesToShow = 8;
-    }  else if (windowsWidth < 3500) {
-      slidesToShow = 9;
-    }  else if (windowsWidth < 4000) {
-      slidesToShow = 10;
-    } else {
-      slidesToShow = 11;
-    }
-
-    this.sliderConfig.slidesToShow = slidesToShow - 2;
-  }*/
 
   onOpenAnime(anime: Anime) {
     this.watchingResume.map((res) => {
@@ -138,9 +96,9 @@ export class UserComponent implements OnInit, OnDestroy {
   onDeleteAnime(anime: Anime) {
     this.animeService.deleteWatchingResume(this.user.uid, anime.realTitle).then(
       () => {
-        /*this.homeScreenMatrix = [];
+        this.homeScreenMatrix = [];
         this.tmpAnimes = {results : []};
-        this.readUserWatchingResume();*/
+        this.readUserWatchingResume();
       }
     );
   }

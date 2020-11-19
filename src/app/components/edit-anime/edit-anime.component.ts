@@ -42,7 +42,7 @@ export class EditAnimeComponent implements OnInit, OnDestroy {
   save() {
     this.anime.results[0].synopsis = this.sinossi;
 
-    this.animeService.editAnime(this.anime)
+    this.animeService.editAnimeSynopsis(this.anime)
       .then(
         () => {
           // tslint:disable-next-line:prefer-for-of

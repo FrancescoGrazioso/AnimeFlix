@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import { auth } from 'firebase/app';
 import {User} from '../models/user';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class AuthService {
     public  af: AngularFireDatabase,
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
+    public firestore: AngularFirestore,
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {
     /* Saving user data in localstorage when
@@ -115,7 +117,7 @@ export class AuthService {
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   SetUserData(user: firebase.User) {
-    const userRef = this.af.database.ref('/user');
+    const userRef = this.firestore.collection('user');
     const userData: User = {
       uid: user.uid,
       email: user.email,
@@ -124,7 +126,8 @@ export class AuthService {
       isAnonymous: user.isAnonymous,
       phoneNumber: user.phoneNumber
     };
-    return userRef.child(userData.uid).set(userData);
+    /*return userRef.child(userData.uid).set(userData);*/
+    return userRef.doc(userData.uid).set(userData);
   }
 
   // Sign out

@@ -1,11 +1,13 @@
-export interface Anime {
+import {DocumentData} from '@angular/fire/firestore';
+
+export class Anime {
   realTitle: string;
   key: string;
-  request_hash: string;
-  request_cached: boolean;
-  request_cache_expiry: number;
   views: number;
-  rating: number;
+  rating: {
+    numberOfRating: number;
+    review: number;
+  };
   results: [
     {
       mal_id: number;
@@ -23,7 +25,14 @@ export interface Anime {
       rated: string
     }
   ];
-  last_page: number;
+
+  constructor(doc: DocumentData) {
+    this.realTitle = doc.realTitle;
+    this.key = doc.key;
+    this.views = doc.views;
+    this.rating = doc.rating;
+    this.results = doc.results;
+  }
 }
 
 

@@ -9,13 +9,14 @@ import {LoginComponent} from './components/login/login.component';
 import {RegisterComponent} from './components/register/register.component';
 import {UserGuard} from './guards/user.guard';
 import {ComingSoonComponent} from './components/coming-soon/coming-soon.component';
+import {SoonGuard} from './guards/soon.guard';
 
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: '', component: HomeComponent, canActivate: [SoonGuard]},
   {path: 'player', component: VideoPlayerComponent},
-  {path: 'search', component: SearchComponent},
-  {path: 'loadPlayer', component: LoadPlayerComponent},
+  {path: 'search', component: SearchComponent, canActivate: [SoonGuard]},
+  {path: 'loadPlayer', component: LoadPlayerComponent, canActivate: [SoonGuard]},
   {path: 'user', component: UserComponent, canActivate: [UserGuard]},
   {path: 'signIn', component: LoginComponent},
   {path: 'signUp', component: RegisterComponent},

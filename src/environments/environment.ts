@@ -3,28 +3,34 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  adsense: {
+    adClient: 'ca-pub-1699180465186643',
+    show: true
+  }
 };
 
 export const mainURL = {
-  startYourAnime: 'http://www.startyouranime.eu/',
-  fairytailitalia: 'http://www.fairytailitalia.eu/',
-  goodanimetowatch: 'http://www.goodanimetowatch.eu/',
-  brandnewanime: 'http://www.brandnewanime.eu/',
-  animemadness: 'http://www.animemadness.cloud/',
-  theplaykuroko: 'http://www.theplaykuroko.org/',
-  onepiece4ever: 'http://www.onepiece4ever.eu/',
-  easydeath: 'http://www.easydeath.net/',
-  littlebigproject: 'http://www.littlebigproject.org/',
-  noughties: 'http://www.noughties.net/',
-  silverbullet: 'http://www.silverbullet.cloud/',
-  wagnaria: 'http://www.wagnaria.org/',
-  animeofthedecade: 'http://www.animeofthedecade.eu/',
-  animeislife: 'http://www.animeislife.info/'
+  startYourAnime: 'https://www.startyouranime.eu/',
+  animemadness: 'https://www.animemadness.cloud/',
+  theplaykuroko: 'https://www.theplaykuroko.org/',
+  fairytailitalia: 'https://www.fairytailitalia.eu/',
+  silverbullet: 'https://www.silverbullet.cloud/',
+  animeofthedecade: 'https://www.animeofthedecade.eu/',
+  brandnewanime: 'https://www.brandnewanime.eu/',
+  animeislife: 'https://www.animeislife.info/',
+  easydeath: 'https://www.easydeath.net/',
 };
 
 export const firebaseConfig = {
-  
+  apiKey: 'AIzaSyC_e7Z1-oMsa4iu0I9Q-z5hGSxs4IiBLME',
+  authDomain: 'animeflix-1bfce.firebaseapp.com',
+  databaseURL: 'https://animeflix-1bfce.firebaseio.com',
+  projectId: 'animeflix-1bfce',
+  storageBucket: 'animeflix-1bfce.appspot.com',
+  messagingSenderId: '89220153623',
+  appId: '1:89220153623:web:69e362d583df3991dff752',
+  measurementId: 'G-C8VYF83CVQ'
 };
 
 /*

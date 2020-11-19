@@ -26,23 +26,25 @@ export class SearchComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private authService: AuthService
   ) {
-    const jsonAnimeList = localStorage.getItem('animeList');
+    const jsonAnimeList = localStorage.getItem('allAnimeList');
     this.user = JSON.parse(localStorage.getItem('user'));
     if (jsonAnimeList) {
       const tmpAnimeList: Animes = JSON.parse(jsonAnimeList);
       this.filterData = tmpAnimeList.results;
       this.allAnime = tmpAnimeList;
     }
-    this.subs.push(this.authService.isAdmin().subscribe(
-      (data) => {
-        for (const admin of data) {
-          if (this.user.email === admin.payload.val()) {
-            this.isAdmin = true;
-            break;
+    if (this.user) {
+      this.subs.push(this.authService.isAdmin().subscribe(
+        (data) => {
+          for (const admin of data) {
+            if (this.user.email === admin.payload.val()) {
+              this.isAdmin = true;
+              break;
+            }
           }
         }
-      }
-    ));
+      ));
+    }
   }
 
   ngOnInit() {

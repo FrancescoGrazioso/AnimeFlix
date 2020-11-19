@@ -1,11 +1,15 @@
 <mat-dialog-content>
   <div class="container">
     <div class="row" *ngIf="isHorizzontal">
-      <img width="25%" style="border-radius: 5px" src="{{anime.results[0].image_url}}">
+      <img width="25%" style="border-radius: 5px; object-fit: contain; padding-top: 5px" src="{{anime.results[0].image_url}}">
       <div class="col">
         <h1>{{title}}</h1>
         <br>
         <p>{{anime.results[0].synopsis}}</p>
+        <br>
+        <star-rating
+          value="{{(anime.rating?.review ? anime.rating.review : 3) / (anime.rating && this.anime.rating.numberOfRating ? this.anime.rating.numberOfRating : 1)}}"
+          totalstars="5" checkedcolor="red" uncheckedcolor="#2B2B2B" size="24px" readonly="false" (rate)="onRate($event)"></star-rating>
       </div>
     </div>
     <div class="row" *ngIf="!isHorizzontal">
@@ -16,9 +20,11 @@
         <h1>{{title}}</h1>
         <br>
         <p>{{anime.results[0].synopsis}}</p>
+        <br>
+        <star-rating value="{{anime.rating?.review ? anime.rating.review : 3}}" totalstars="5" checkedcolor="red" uncheckedcolor="#2B2B2B" size="24px" readonly="false" (rate)="onRate($event)"></star-rating>
       </div>
     </div>
-    <hr style="color: white">
+    <hr style="color: #ffffff">
     <div  *ngIf="populated">
       <h2>Lista episodi</h2>
       <div  *ngIf="!errorMessage">

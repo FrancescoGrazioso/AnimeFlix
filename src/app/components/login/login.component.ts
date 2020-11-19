@@ -12,11 +12,12 @@ export class LoginComponent implements OnInit {
   pass: string;
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    alert('Siamo in fase di beta chiusa, se non hai ricevuto la mail di invito non sei stato selezionato per partecipare alla ' +
+      'versione di prova e quindi non avrai accesso alle funzioni del sito, ci dispiace');
   }
 
   emailLogin() {
